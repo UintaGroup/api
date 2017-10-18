@@ -9,16 +9,15 @@ export class JwtStrategy extends Strategy {
         super(
             {
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-                passReqToCallback: true,
                 secretOrKey: 'secret',
             },
-            async (req, payload, next) => await this.verify(req, payload, next)
+            async (payload, next) => await this.verify(payload, next)
         );
 
         passport.use(this);
     }
 
-    public async verify(req, payload, done) {
+    public async verify(payload, done) {
         const user = await this.userService.find(payload.email);
         if (!user) {
             return done('Unauthorized', false);

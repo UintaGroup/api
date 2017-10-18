@@ -55,3 +55,9 @@ UserSchema.methods.gravatar = function(size: number) {
     const md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
+UserSchema.virtual(('orgId')).get(function() {
+    return this.organization._id;
+});
+UserSchema.virtual(('isStaff')).get(function() {
+    return this.roles.indexOf('staff') > -1;
+});

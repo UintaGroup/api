@@ -5,7 +5,6 @@ import { MongoException } from '../../database/exceptions';
 import { CreateExpenseCategoryDto } from '../dto';
 import { RolesGuard } from '../../auth/guards';
 import { Roles } from '../../auth/decorators/roles.decorator';
-import { AuthRole } from '../../auth/enums/auth-roll.enum';
 
 @Component()
 @UseGuards(RolesGuard)
@@ -22,7 +21,7 @@ export class ExpenseCategoryService {
         }
     }
 
-    @Roles(AuthRole.admin)
+    @Roles('admin')
     async create(orgId: string, createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<IExpenseCategory> {
         try {
             const expenseCategory = new this.expenseCategoryModel(createExpenseCategoryDto);

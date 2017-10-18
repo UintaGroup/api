@@ -11,16 +11,16 @@ export class ExpenseCategoryController {
 
     @Get()
     public async findAll(@Req() req) {
-        return await this.expenseCategoryService.findAll(req.user.organization._id);
+        return await this.expenseCategoryService.findAll(req.user.orgId);
     }
 
     @Get(':id')
     public async findOne(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<IExpenseCategory> {
-        return await this.expenseCategoryService.findOne(req.user.organization._id, id);
+        return await this.expenseCategoryService.findOne(req.user.orgId, id);
     }
 
     @Post()
     public async create(@Req() req, @Body() createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<any> {
-        return await this.expenseCategoryService.create(req.user.organization._id, createExpenseCategoryDto);
+        return await this.expenseCategoryService.create(req.user.orgId, createExpenseCategoryDto);
     }
 }

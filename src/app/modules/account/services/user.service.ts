@@ -3,7 +3,6 @@ import { Component, Inject } from '@nestjs/common';
 import { IUser } from '../interfaces/user.interface';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { MongoException } from '../../database/exceptions/mongo.exception';
-import { AuthRole } from '../../auth/enums/auth-roll.enum';
 
 @Component()
 export class UserService {
@@ -24,7 +23,6 @@ export class UserService {
         return await this.findOne({email: email.toLowerCase()})
     }
 
-
     async create(createUserDto: CreateUserDto, organizationId): Promise<IUser> {
         try {
             const user = new this.userModel(createUserDto);
@@ -38,7 +36,7 @@ export class UserService {
     async createAdmin(createUserDto: CreateUserDto, organizationId): Promise<IUser> {
         try {
             const user = new this.userModel(createUserDto);
-            user.roles = [AuthRole.admin];
+            user.roles = ['admin'];
             user.organization = organizationId;
             return await user.save();
         } catch (err) {
