@@ -3,6 +3,7 @@ import { Component, Inject } from '@nestjs/common';
 import { IUser } from '../interfaces/user.interface';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { MongoException } from '../../database/exceptions/mongo.exception';
+import { IOrganization } from '../interfaces/organization.interface';
 
 @Component()
 export class UserService {
@@ -20,13 +21,13 @@ export class UserService {
     }
 
     async find(email: string): Promise<IUser> {
-        return await this.findOne({email: email.toLowerCase()})
+        return await this.findOne({email: email.toLowerCase()});
     }
 
-    async create(createUserDto: CreateUserDto, organizationId): Promise<IUser> {
+    async create(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
         try {
             const user = new this.userModel(createUserDto);
-            user.organization = organizationId;
+            user.organization = organization;
             return await user.save();
         } catch (err) {
             throw new MongoException(err);
@@ -70,9 +71,9 @@ export class UserService {
         }
     }
 
-    async findAll(): Promise<IUser[]> {
+    async findAll(organizationId: string): Promise<IUser[]> {
         try {
-            return await this.userModel.find().exec();
+            return await this.userModel.find({organization: organizationId}).exec();
         } catch (err) {
             throw new MongoException(err);
         }

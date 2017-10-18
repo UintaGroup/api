@@ -13,7 +13,7 @@ export class UserController {
 
     @Post()
     async create(@Req() req, @Body() createUserDto: CreateUserDto): Promise<IUser> {
-        return await this.userService.create(createUserDto, req.user.orgId);
+        return await this.userService.create(req.user.organization, createUserDto);
     }
 
     @Get('me')
@@ -23,8 +23,8 @@ export class UserController {
 
     @Get()
     @Roles('admin')
-    async findAll(): Promise<IUser[]> {
-        return this.userService.findAll();
+    async findAll(@Req() req): Promise<IUser[]> {
+        return this.userService.findAll(req.user.orgId);
     }
 
     @Put()

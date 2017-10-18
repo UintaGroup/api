@@ -22,22 +22,4 @@ export class AccountService {
             .then(user => result.user = user);
         return result;
     }
-
-    // async update(updateDto: UpdateDto): Promise<any> {
-    //     try {
-    //         const update: any = {};
-    //         update[updateDto.field] = updateDto.value;
-    //         return this.accountModel.findByIdAndUpdate(updateDto.id, update);
-    //     } catch (err) {
-    //         throw new MongoException(err);
-    //     }
-    // }
-
-    // async findAll(): Promise<Account[]> {
-    //     try {
-    //         return await this.accountModel.find().exec();
-    //     } catch (err) {
-    //         throw new MongoException(err);
-    //     }
-    // }
 }

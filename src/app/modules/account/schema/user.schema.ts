@@ -20,7 +20,7 @@ export const UserSchema = new mongoose.Schema({
     microsoft: String,
     roles: Array,
     active: {type: Boolean, default: true},
-    organization: {type: String, ref: 'Organization' },
+    organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     tokens: Array,
 }, {
     timestamps: true,
