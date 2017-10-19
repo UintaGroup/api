@@ -2,7 +2,6 @@ import { Controller, Post, Get, Body, Put, Req } from '@nestjs/common';
 import { UserService } from '../services';
 import { IUser } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';
-import { AuthRole } from '../../auth/enums';
 import { Roles } from '../../auth/decorators';
 
 @Controller('users')
@@ -11,9 +10,9 @@ export class UserController {
     }
 
     @Post()
+    @Roles('admin')
     async create(@Req() req, @Body() createUserDto: CreateUserDto): Promise<IUser> {
-        //TODO More elegant way to get org
-        return await this.userService.create(createUserDto, req.user.organization.id);
+        return await this.userService.create(req.user.organization, createUserDto);
     }
 
     @Get('me')
@@ -22,9 +21,9 @@ export class UserController {
     }
 
     @Get()
-    @Roles(AuthRole.admin)
-    async findAll(): Promise<IUser[]> {
-        return this.userService.findAll();
+    @Roles('admin')
+    async findAll(@Req() req): Promise<IUser[]> {
+        return this.userService.findAll(req.user.orgId);
     }
 
     @Put()

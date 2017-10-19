@@ -1,12 +1,10 @@
 import * as bcrypt from 'bcrypt-nodejs';
 import { Component } from '@nestjs/common';
+import { UnauthorizedException, InvalidArgumentException } from '../common/exceptions';
 import { UserService } from '../account';
 import { AuthToken } from './models';
-import { IAuthToken } from './interfaces';
-import { UnauthorizedException } from '../common/exceptions';
-import { SetPasswordDto } from '../account/dto/set-password.dto';
-import { IJwt } from './interfaces/jwt.interface';
-import { InvalidArgumentException } from '../common/exceptions/invalid-argument.exception';
+import { IAuthToken, IJwt } from './interfaces';
+import { SetPasswordDto } from './dto';
 
 @Component()
 export class AuthService {
@@ -84,28 +82,28 @@ export class AuthService {
 
     async resetPassword(email: string): Promise<any> {
         // TODO - Send email to user account with token
-        let resetToken: IAuthToken = new AuthToken('secret', {email: email}, 86400);
+        const resetToken: IAuthToken = new AuthToken('secret', { email }, 86400);
         console.log('PASSWORD RESET', resetToken.token);
         await this.userService.find(email)
             .then(user => {
                 this.validateUser(user);
                 user.passwordResetToken = resetToken.token;
-                user.save();
+                return user.save();
             });
     }
 
     async setPassword(setPasswordDto: SetPasswordDto): Promise<void> {
         try {
             await AuthToken.verify(setPasswordDto.token)
-                .then((token: IJwt) => this.userService.findOne({
+                .then(token => this.userService.findOne({
                     email: token.email,
-                    passwordResetToken: setPasswordDto.token
+                    passwordResetToken: setPasswordDto.token,
                 }))
                 .then(user => {
                     this.validateUser(user);
                     user.passwordResetToken = '';
                     user.password = setPasswordDto.password;
-                    user.save();
+                    return user.save();
                 });
         }
         catch (err) {

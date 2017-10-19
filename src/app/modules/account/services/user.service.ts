@@ -1,13 +1,20 @@
 import { Model } from 'mongoose';
 import { Component, Inject } from '@nestjs/common';
-import { IUser } from '../interfaces/user.interface';
+import { MongoException } from '../../database/exceptions';
 import { CreateUserDto, UpdateUserDto } from '../dto';
-import { MongoException } from '../../database/exceptions/mongo.exception';
-import { AuthRole } from '../../auth/enums/auth-roll.enum';
+import { IOrganization, IUser } from '../interfaces';
 
 @Component()
 export class UserService {
     constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>) {
+    }
+
+    async findAll(organizationId: string): Promise<IUser[]> {
+        try {
+            return await this.userModel.find({organization: organizationId}).exec();
+        } catch (err) {
+            throw new MongoException(err);
+        }
     }
 
     async findOne(params: object): Promise<IUser> {
@@ -21,25 +28,24 @@ export class UserService {
     }
 
     async find(email: string): Promise<IUser> {
-        return await this.findOne({email: email.toLowerCase()})
+        return await this.findOne({email: email.toLowerCase()});
     }
 
-
-    async create(createUserDto: CreateUserDto, organizationId): Promise<IUser> {
+    async create(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
         try {
             const user = new this.userModel(createUserDto);
-            user.organization = organizationId;
+            user.organization = organization;
             return await user.save();
         } catch (err) {
             throw new MongoException(err);
         }
     }
 
-    async createAdmin(createUserDto: CreateUserDto, organizationId): Promise<IUser> {
+    async createAdmin(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
         try {
             const user = new this.userModel(createUserDto);
-            user.roles = [AuthRole.admin];
-            user.organization = organizationId;
+            user.roles = ['admin'];
+            user.organization = organization;
             return await user.save();
         } catch (err) {
             throw new MongoException(err);
@@ -72,11 +78,4 @@ export class UserService {
         }
     }
 
-    async findAll(): Promise<IUser[]> {
-        try {
-            return await this.userModel.find().exec();
-        } catch (err) {
-            throw new MongoException(err);
-        }
-    }
 }

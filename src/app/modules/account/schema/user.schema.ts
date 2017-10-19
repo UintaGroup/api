@@ -7,6 +7,7 @@ const _toJSON = {
         delete ret._id;
         delete ret.__v;
         delete ret.password;
+        delete ret.tokens;
     },
 };
 
@@ -20,7 +21,7 @@ export const UserSchema = new mongoose.Schema({
     microsoft: String,
     roles: Array,
     active: {type: Boolean, default: true},
-    organization: {type: String, ref: 'Organization' },
+    organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     tokens: Array,
 }, {
     timestamps: true,
@@ -55,3 +56,9 @@ UserSchema.methods.gravatar = function(size: number) {
     const md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
+UserSchema.virtual(('orgId')).get(function() {
+    return this.organization._id;
+});
+UserSchema.virtual(('isStaff')).get(function() {
+    return this.roles.indexOf('staff') > -1;
+});

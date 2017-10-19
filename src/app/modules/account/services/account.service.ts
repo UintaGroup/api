@@ -1,11 +1,9 @@
-import { Component, Inject } from '@nestjs/common';
-import { CreateAccountDto } from '../dto/create-account.dto';
-import { MongoException } from '../../database/exceptions/mongo.exception';
+import { Component } from '@nestjs/common';
+import { CreateAccountDto } from '../dto';
 import { UserService } from './user.service';
+import { IAccount } from '../interfaces';
 import { OrganizationService } from './organization.service';
-import { CreateOrganizationDto } from '../dto/create-organization.dto';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { IAccount } from '../interfaces/account.interface';
+import { AccountDto } from '../dto';
 
 @Component()
 export class AccountService {
@@ -13,31 +11,13 @@ export class AccountService {
     }
 
     async create(createAccountDto: CreateAccountDto): Promise<IAccount> {
-        let result: any = {} as IAccount;
+        const result: IAccount = new AccountDto();
         await this.organizationService.create(createAccountDto.organization)
             .then(org => {
                 result.organization = org;
-                return this.userService.createAdmin(createAccountDto.user, org.id);
+                return this.userService.createAdmin(org, createAccountDto.user);
             })
             .then(user => result.user = user);
         return result;
     }
-
-    // async update(updateDto: UpdateDto): Promise<any> {
-    //     try {
-    //         const update: any = {};
-    //         update[updateDto.field] = updateDto.value;
-    //         return this.accountModel.findByIdAndUpdate(updateDto.id, update);
-    //     } catch (err) {
-    //         throw new MongoException(err);
-    //     }
-    // }
-
-    // async findAll(): Promise<Account[]> {
-    //     try {
-    //         return await this.accountModel.find().exec();
-    //     } catch (err) {
-    //         throw new MongoException(err);
-    //     }
-    // }
 }
