@@ -1,6 +1,6 @@
 import * as passport from 'passport';
 import { MiddlewaresConsumer } from '@nestjs/common/interfaces/middlewares';
-import { Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { catsProviders } from './cats.providers';
