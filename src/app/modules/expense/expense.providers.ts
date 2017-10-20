@@ -1,12 +1,18 @@
 import { Connection } from 'mongoose';
-import { ExpenseCategorySchema } from './schema/expense-category.schema';
-import { ExpenseCategoryService } from './services/expense-category.service';
+import { ExpenseReportService, ExpenseCategoryService } from './services';
+import { ExpenseCategorySchema, ExpenseReportSchema } from './schema';
 
 export const expenseProviders = [
+    ExpenseReportService,
     ExpenseCategoryService,
     {
         provide: 'ExpenseCategoryModelToken',
         useFactory: (connection: Connection) => connection.model('ExpenseCategory', ExpenseCategorySchema),
+        inject: ['DbConnectionToken'],
+    },
+    {
+        provide: 'ExpenseReportModelToken',
+        useFactory: (connection: Connection) => connection.model('ExpenseReport', ExpenseReportSchema),
         inject: ['DbConnectionToken'],
     },
 ];

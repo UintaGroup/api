@@ -1,14 +1,12 @@
 import { Model } from 'mongoose';
-import { Component, Inject, UseGuards } from '@nestjs/common';
+import { Component, Inject } from '@nestjs/common';
 import { IExpenseCategory } from '../interfaces';
 import { MongoException } from '../../database/exceptions';
 import { CreateExpenseCategoryDto } from '../dto';
-import { RolesGuard } from '../../auth/guards';
-import { Roles } from '../../auth/decorators/roles.decorator';
-import { IOrganization } from '../../account/interfaces/organization.interface';
+import { Roles } from '../../auth/decorators';
+import { IOrganization } from '../../account/interfaces/';
 
 @Component()
-@UseGuards(RolesGuard)
 export class ExpenseCategoryService {
     constructor(@Inject('ExpenseCategoryModelToken') private readonly expenseCategoryModel: Model<IExpenseCategory>) {
     }
