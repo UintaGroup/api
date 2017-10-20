@@ -9,7 +9,7 @@
     "start:prod": "node dist/server.js",
     "build": "tsc",
     "test": "jest --config ./jest.config.json",
-    "e2e": "jest --config ./jest.e2e.config.js",
+    "e2e": "jest --config ./jest.e2e.config.js --forceExit",
     "ci": "npm run test && npm run e2e",
     "watch": "tsc -w",
     "serve": "nodemon -e ts --watch src --exec \"npm run build && npm run start\" ",

@@ -1,0 +1,15 @@
+sudo: required
+dist: trusty
+git:
+  depth: 1
+language: node_js
+node_js:
+- '6'
+- '7'
+- stable
+matrix:
+  fast_finish: true
+install:
+- npm install
+script:
+- npm run ci
