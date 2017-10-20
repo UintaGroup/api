@@ -25,7 +25,6 @@
     "body-parser": "^1.18.2",
     "class-transformer": "^0.1.7",
     "class-validator": "^0.7.2",
-    "crypto": "^1.0.1",
     "dotenv": "^4.0.0",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^4.12.1",
