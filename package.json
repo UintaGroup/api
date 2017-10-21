@@ -13,7 +13,8 @@
     "ci": "npm run test && npm run e2e",
     "watch": "tsc -w",
     "serve": "nodemon -e ts --watch src --exec \"npm run build && npm run start\" ",
-    "postinstall": "npm install --dev && npm install tsc"
+    "postinstall": "tsc",
+    "heroku-prebuilt": "npm install --only=dev"
   },
   "dependencies": {
     "@nestjs/common": "^4.0.1",
