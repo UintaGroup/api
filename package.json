@@ -34,8 +34,6 @@
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.3",
     "typescript": "^2.4.2"
-  },
-  "devDependencies": {
     "@types/async": "^2.0.44",
     "@types/bcrypt-nodejs": "0.0.30",
     "@types/body-parser": "^1.16.5",
