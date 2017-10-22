@@ -1,3 +1,4 @@
+import * as express from 'express';
 import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app/app.module';
 import * as bodyParser from 'body-parser';
@@ -8,6 +9,7 @@ import { RolesGuard } from './app/modules/auth/guards';
 async function bootstrap() {
 
     const app: any = await NestFactory.create(ApplicationModule);
+    app.use(express.static(__dirname + '/public'));
 
     app.use(bodyParser.json());
     app.useGlobalFilters(new HttpExceptionFilter());
