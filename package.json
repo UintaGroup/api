@@ -7,13 +7,14 @@
     "start": "node index.js",
     "prestart:prod": "tsc",
     "start:prod": "node dist/server.js",
-    "build": "tsc && gulp",
+    "build": "tsc && npm run docs",
     "test": "jest --config ./jest.config.json",
+    "docs": "./node_modules/.bin/apidoc -i ./src/app -o bin/docs",
     "e2e": "jest --config ./jest.e2e.config.js --forceExit",
     "ci": "npm run test && npm run e2e",
     "watch": "tsc -w",
     "serve": "nodemon -e ts --watch src --exec \"npm run build && npm run start\" ",
-    "heroku-postbuild": "npm install --only=dev && gulp && tsc"
+    "heroku-postbuild": "npm install --only=dev && npm run build"
   },
   "dependencies": {
     "@nestjs/common": "^4.0.1",
@@ -56,6 +57,7 @@
     "apidoc": "^0.17.6",
     "cz-conventional-changelog": "^2.0.0",
     "gulp": "^3.9.1",
+    "gulp-apidoc": "^0.2.6",
     "gulp-clean-css": "3.9.0",
     "gulp-header": "1.8.9",
     "gulp-rename": "^1.2.2",
@@ -76,7 +78,8 @@
     }
   },
   "apidoc": {
-    "title": "Uintasoft Api Documentation",
+    "title": "Uintasoft",
+    "version": "1.0.0",
     "url": "https://api.uintasoft.com"
   }
 }
