@@ -28,7 +28,7 @@ export class OrganizationController {
      * @apiSuccess {String} companySite Organization website URL.
      *
      * @apiSuccessExample Success-Response:
-     *  HTTP/1.1 200 OK
+     *     HTTP/1.1 200 OK
      *  {
      *     "id": "59eacd024d03ee001282a73f",
      *     "name": "Uinta Software",
@@ -47,7 +47,6 @@ export class OrganizationController {
      *
      * @apiUse Unauthorized
      */
-    @Get()
     @Get()
     async find(@Req() req): Promise<IOrganization> {
 
