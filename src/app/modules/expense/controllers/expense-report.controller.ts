@@ -16,7 +16,7 @@ import { IExpenseReport } from '../interfaces';
  * @apiDefine Unauthorized
  * @apiError Unauthorized
  * @apiErrorExample
- * HTTP/1.1 401 OK
+ * HTTP/1.1 401 Unauthorized
  * {
  *   "statusCode": 401,
  *   "message": "Unauthorized"

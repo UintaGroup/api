@@ -9,9 +9,9 @@ export class UserService {
     constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>) {
     }
 
-    async findAll(organizationId: string): Promise<IUser[]> {
+    async findAll(orgId: string): Promise<IUser[]> {
         try {
-            return await this.userModel.find({organization: organizationId}).exec();
+            return await this.userModel.find({organization: orgId }).exec();
         } catch (err) {
             throw new MongoException(err);
         }
@@ -27,8 +27,12 @@ export class UserService {
         }
     }
 
-    async find(email: string): Promise<IUser> {
+    async findByEmail(email: string): Promise<IUser> {
         return await this.findOne({email: email.toLowerCase()});
+    }
+
+    async find(orgId: string, userId: string): Promise<IUser> {
+        return await this.findOne({organization: orgId, id: userId});
     }
 
     async create(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
@@ -52,9 +56,9 @@ export class UserService {
         }
     }
 
-    async update(userId: string, updateUserDto: UpdateUserDto): Promise<any> {
+    async update(orgId: string, userId: string, updateUserDto: UpdateUserDto): Promise<any> {
         try {
-            return await this.userModel.findById(userId)
+            return await this.findOne({organization: orgId, _id: userId})
                 .then(user => {
                     if (updateUserDto.facebook) {
                         user.facebook = updateUserDto.facebook;

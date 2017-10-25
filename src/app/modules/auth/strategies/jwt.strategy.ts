@@ -18,7 +18,7 @@ export class JwtStrategy extends Strategy {
     }
 
     public async verify(payload, done) {
-        const user = await this.userService.find(payload.email);
+        const user = await this.userService.findByEmail(payload.email);
         if (!user) {
             return done('Unauthorized', false);
         }

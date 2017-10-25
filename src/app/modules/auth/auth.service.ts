@@ -12,7 +12,7 @@ export class AuthService {
     }
 
     async authenticate(email, password): Promise<any> {
-        return await this.userService.find(email)
+        return await this.userService.findByEmail(email)
             .then(user => {
                 this.validateUser(user);
                 this.validatePassword(password, user.password);
@@ -24,7 +24,7 @@ export class AuthService {
         // TODO - Send email to user account with token
         const resetToken: IAuthToken = new AuthToken('secret', { email }, 86400);
         console.log('PASSWORD RESET', resetToken.token);
-        await this.userService.find(email)
+        await this.userService.findOne({email: email.toLowerCase()})
             .then(user => {
                 this.validateUser(user);
                 user.passwordResetToken = resetToken.token;

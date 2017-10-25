@@ -14,7 +14,7 @@ import { CredentialsDto, SetPasswordDto } from './dto';
  * @apiDefine Unauthorized
  * @apiError Unauthorized
  * @apiErrorExample
- * HTTP/1.1 401 OK
+ * HTTP/1.1 401 Unauthorized
  * {
  *   "statusCode": 401,
  *   "message": "Unauthorized"
@@ -42,6 +42,7 @@ export class AuthController {
     public async authorized() {
         return {statusCode: 200, message: 'Authorized'};
     }
+
     /**
      * @api {post} /auth Login
      * @apiName Login
