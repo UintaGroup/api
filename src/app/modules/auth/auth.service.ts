@@ -16,7 +16,7 @@ export class AuthService {
             .then(user => {
                 this.validateUser(user);
                 this.validatePassword(password, user.password);
-                return new AuthToken('secret', {email: user.email}, 3600);
+                return new AuthToken(process.env.UINTA_SECRET, {email: user.email}, 3600);
             });
     }
 

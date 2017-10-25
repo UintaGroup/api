@@ -12,7 +12,7 @@ export class AuthToken implements IAuthToken {
 
     public static verify(token: string): Promise<IJwt> {
        return new Promise((resolve, reject) => {
-           jwt.verify(token, 'secret', (err, decoded) => {
+           jwt.verify(token, process.env.UINTA_SECRET, (err, decoded) => {
                if (err) {
                    reject(err);
                } else {
