@@ -20,7 +20,7 @@ export const ExpenseSchema = new mongoose.Schema({
         transform: (doc, ret) => {
             delete ret._id;
             delete ret.__v;
-        }
+        },
     },
 });
 export const ExpenseReportSchema = new mongoose.Schema({

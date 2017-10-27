@@ -1,8 +1,16 @@
-import { IsEnum } from 'class-validator';
-import { ReportStatus } from '../enum';
+import { IsDateString, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class UpdateExpenseReportDto {
 
-    @IsEnum(ReportStatus)
-    status: number;
+    @IsNotEmpty()
+    name: string;
+
+    @IsOptional()
+    description: string;
+
+    @IsDateString()
+    startDate: string;
+
+    @IsDateString()
+    endDate: string;
 }

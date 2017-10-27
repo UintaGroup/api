@@ -15,6 +15,7 @@ export class CreateExpenseReportDto {
     @IsDateString()
     endDate: string;
 
+    @IsOptional()
     @ValidateNested()
     expenses: CreateExpenseDto[];
 }

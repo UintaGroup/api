@@ -1,4 +1,7 @@
 export enum ReportStatus {
-    Submitted = 0,
-    Processed = 1,
+    Open = 0,
+    Submitted= 1,
+    Approved = 2,
+    Declined = 3,
+    Paid = 4,
 }

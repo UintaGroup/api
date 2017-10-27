@@ -1,14 +1,15 @@
 import { Model } from 'mongoose';
 import { Component, Inject } from '@nestjs/common';
-import { IExpenseReport } from '../interfaces';
+import { IUser } from '../../account/interfaces';
+import { IExpenseReport, IExpense } from '../interfaces';
 import { MongoException } from '../../database/exceptions';
-import { CreateExpenseReportDto } from '../dto';
-import { IUser } from '../../account/interfaces/user.interface';
-import { UpdateExpenseReportDto } from '../dto/update-expense-report.dto';
+import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
+import { ReportStatus } from '../enum';
 
 @Component()
 export class ExpenseReportService {
-    constructor(@Inject('ExpenseReportModelToken') private readonly expenseReportModel: Model<IExpenseReport>) {
+    constructor(@Inject('ExpenseReportModelToken') private readonly expenseReportModel: Model<IExpenseReport>,
+                @Inject('ExpenseModelToken') private readonly expenseModel: Model<IExpense>) {
     }
 
     async findAll(user: IUser): Promise<IExpenseReport[]> {
@@ -38,10 +39,34 @@ export class ExpenseReportService {
         }
     }
 
-    async update(user: IUser, id: string,  updateExpenseReportDto: UpdateExpenseReportDto): Promise<void> {
+    async addExpense(user: IUser, id: string, createExpenseDto: CreateExpenseDto): Promise<void> {
         try {
             const report = await this.findOne(user, id);
-            report.status = updateExpenseReportDto.status;
+            const expense = new this.expenseModel(createExpenseDto);
+            report.expenses.push(expense);
+            await report.save();
+        } catch (err) {
+            throw new MongoException(err);
+        }
+    }
+
+    async update(user: IUser, id: string, updateExpenseReportDto: UpdateExpenseReportDto): Promise<void> {
+        try {
+            const report = await this.findOne(user, id);
+            report.name = updateExpenseReportDto.name;
+            report.description = updateExpenseReportDto.description;
+            report.startDate = updateExpenseReportDto.startDate;
+            report.endDate = updateExpenseReportDto.endDate;
+            await report.save();
+        } catch (err) {
+            throw new MongoException(err);
+        }
+    }
+
+    async transition(user: IUser, id: string, status: ReportStatus): Promise<void> {
+        try {
+            const report = await this.findOne(user, id);
+            report.status = status;
             await report.save();
         } catch (err) {
             throw new MongoException(err);
