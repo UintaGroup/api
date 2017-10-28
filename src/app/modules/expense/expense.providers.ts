@@ -1,7 +1,6 @@
 import { Connection } from 'mongoose';
 import { ExpenseReportService, ExpenseCategoryService } from './services';
-import { ExpenseCategorySchema, ExpenseReportSchema } from './schema';
-import { ExpenseSchema } from './schema/expense-report.schema';
+import { ExpenseCategorySchema, ExpenseReportSchema, ExpenseSchema } from './schema';
 
 export const expenseProviders = [
     ExpenseReportService,
