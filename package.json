@@ -26,7 +26,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0-beta.2",
     "class-transformer": "^0.1.7",
-    "class-validator": "^0.7.2",
+    "class-validator": "0.7.3",
     "dotenv": "^4.0.0",
     "font-awesome": "4.7.0",
     "jquery": "^3.2.1",
