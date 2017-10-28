@@ -21,9 +21,9 @@ export class AccountController {
      * @apiParam {String} organization.address Organization Street Address.
      * @apiParam {String} [organization.addressTwo] Organization Street Address Two.
      * @apiParam {String} organization.city Organization City.
-     * @apiParam {String{2}} organization.state Organization State.
+     * @apiParam {String{2}} organization.state Organization State *UpperCase.
      * @apiParam {String} organization.postalCode Organization PostalCode or Zip.
-     * @apiParam {String{3}} organization.country Organization Country.
+     * @apiParam {String{3}} organization.country Organization Country *UpperCase.
      * @apiParam {String} organization.email Organization billing email.
      * @apiParam {String} organization.phone Organization contact phone number.
      * @apiParam {String} organization.companySite Organization website URL.
@@ -74,7 +74,7 @@ export class AccountController {
      *      "country": "USA",
      *      "email": "ar@uintasoft.com",
      *      "phone": "801-111-2222",
-     *      "companySite": "http://www.uintasoft.com",
+     *      "companySite": "www.uintasoft.com",
      *      "users": [],
      *      "id": "59eacd024d03ee001282a73f"
      *    },
