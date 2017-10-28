@@ -1,4 +1,4 @@
-import { IsEmail, IsFQDN, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsEmail, IsFQDN, IsNotEmpty, IsOptional, IsUppercase, Length, MinLength } from 'class-validator';
 
 export class CreateOrganizationDto {
 
@@ -11,10 +11,15 @@ export class CreateOrganizationDto {
     @IsNotEmpty()
     city: string;
     @IsNotEmpty()
+    @Length(2)
+    @IsUppercase()
     state: string;
     @IsNotEmpty()
+    @MinLength(5)
     postalCode: string;
     @IsNotEmpty()
+    @Length(3)
+    @IsUppercase()
     country: string;
     @IsNotEmpty()
     @IsEmail()
@@ -22,5 +27,6 @@ export class CreateOrganizationDto {
     @IsNotEmpty()
     phone: string;
     @IsFQDN()
+    @IsOptional()
     companySite: string;
 }
