@@ -2,24 +2,6 @@ import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CredentialsDto, SetPasswordDto } from './dto';
 
-/**
- * @apiDefine AuthHeader
- * @apiHeader {String} authorization JWT Bearer Token
- * @apiHeaderExample {String} Bearer Token Example:
- *  {
- *    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJlbWFpbCI6InNjbGFya2xhc2xleUBnbWFpbC5jb20iLCJpYXQiOjE1MDg1NjAxNTgsImV4cCI6MTUwODU2Mzc1OH0.ytIw5l-lKlFsjq4pyGNAOEM8nsXvvwT4YcL5f4w6rVw"
- *  }
- */
-/**
- * @apiDefine Unauthorized
- * @apiError Unauthorized
- * @apiErrorExample
- * HTTP/1.1 401 Unauthorized
- * {
- *   "statusCode": 401,
- *   "message": "Unauthorized"
- * }
- */
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {
@@ -47,8 +29,8 @@ export class AuthController {
      * @api {post} /auth Login
      * @apiName Login
      * @apiGroup Authentication
-     * @apiParam {String} email Users email address.
-     * @apiParam {String} password Users password.
+     * @apiParam {String} email User's email address.
+     * @apiParam {String} password User's password.
      * @apiDescription Authenticate to API
      *
      * @apiParamExample {json} Request-Example:
@@ -106,7 +88,7 @@ export class AuthController {
      *
      * @apiParam {String} token Token from email.
      * @apiParam {String{8-20}} password Desired Password.
-     * @apiParamExample
+     * @apiParamExample {json} Request-Example:
      * {
      *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJlbWFpbCI6InNjbGFya2xhc2xleUBnbWFpbC5jb20iLCJpYXQiOjE1MDgyODIzMDgsImV4cCI6MTUwODM2ODcwOH0.aONDhBELZHiGTaqzlokcs87LVrN63NulNDA8AubADOU",
      *   "password": "Pa$$word",

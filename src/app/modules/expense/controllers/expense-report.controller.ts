@@ -158,7 +158,7 @@ export class ExpenseReportController {
      * @apiParam {String} report.expenses.expense.description] Expense description.
      * @apiParam {Date} report.expenses.expense.expenseDate] Expense date.
      * @apiParam {String} report.expenses.expense.merchant] Expense merchant.
-     * @apiParamExample Request Example
+     * @apiParamExample {json} Request-Example:
      * {
      *   "name": "Report one",
      *   "description": "My Description",
@@ -241,7 +241,7 @@ export class ExpenseReportController {
      * @apiParam {String} [description] Report description.
      * @apiParam {Date} startDate Report period start.
      * @apiParam {Date} endDate Report period end.
-     * @apiParamExample
+     * @apiParamExample {json} Request-Example:
      * {
      *   "name": "Report one",
      *   "description": "Conference",
@@ -270,7 +270,7 @@ export class ExpenseReportController {
      * @apiParam {String} description Expense description.
      * @apiParam {Date} [expenseDate] Expense date.
      * @apiParam {String} merchant Expense merchant.
-     * @apiParamExample Request Example
+     * @apiParamExample  {json} Request-Example:
      * {
      *   "amount": 10.00,
      *   "description": "",

@@ -4,24 +4,6 @@ import { IUser } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { Roles } from '../../auth/decorators';
 
-/**
- * @apiDefine AuthHeader
- * @apiHeader {String} authorization JWT Bearer Token
- * @apiHeaderExample {String} Bearer Token Example:
- *  {
- *    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI3IkpXVCJ9.eyJlbWFpbCI6InNjbGFya2xhc2xleUBnbWFpbC5jb20iLCJpYXQiOjE1MDg1NjAxNTgsImV4cCI6MTUwODU2Mzc1OH0.ytIw5l-lKlFsjq4pyGNAOEM8nsXvvwT4YcL5f4w6rVw"
- *  }
- */
-/**
- * @apiDefine Unauthorized
- * @apiError Unauthorized
- * @apiErrorExample
- * HTTP/1.1 401 Unauthorized
- * {
- *   "statusCode": 401,
- *   "message": "Unauthorized"
- * }
- */
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) {
@@ -86,7 +68,7 @@ export class UserController {
      *
      * @apiParam {String} email User's email address.
      * @apiParam {String} password User's desired Password.
-     * @apiParamExample
+     * @apiParamExample {json} Request-Example:
      * {
      *  "email": "flurrytime@gmail.com",
      *  "password": "Passw0rd1"
@@ -194,7 +176,7 @@ export class UserController {
      * @apiUse AuthHeader
      *
      * @apiParam {String} password User's desired Password.
-     * @apiParamExample
+     * @apiParamExample {json} Request-Example:
      * {
      *  "password": "Passw0rd1"
      * }
@@ -237,7 +219,7 @@ export class UserController {
      * @apiUse AuthHeader
      *
      * @apiParam {String} password User's desired Password.
-     * @apiParamExample
+     * @apiParamExample {json} Request-Example:
      * {
      *  "password": "Passw0rd1"
      * }

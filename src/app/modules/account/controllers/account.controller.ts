@@ -28,7 +28,7 @@ export class AccountController {
      * @apiParam {String} organization.phone Organization contact phone number.
      * @apiParam {String} [organization.companySite] Organization website URL.
      *
-     * @apiParamExample Request-Example:
+     * @apiParamExample {json} Request-Example:
      * {
      *  "user": {
      *      "email": "flurrytime@gmail.com",
