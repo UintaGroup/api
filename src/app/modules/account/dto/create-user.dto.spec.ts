@@ -5,9 +5,14 @@ import { plainToClass } from 'class-transformer';
 describe('CreateUserDto', () => {
     let _validator: any;
     let classUnderTest: CreateUserDto;
+    let req: any;
 
     beforeEach(() => {
         _validator = new Validator();
+        req = {
+            email: 'valid@email.com',
+            password: '$xab1Tx1111',
+        } as object;
     });
 
     it('should initialize in invalid state', async () => {
@@ -19,10 +24,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should enforce password requirement', async () => {
-        const req = {
-            email: 'valid@email.com',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+        delete req.password;
+        classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'password');
@@ -31,11 +34,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should validate', async () => {
-        const req = {
-            email: 'valid@email.com',
-            password: '$xab1Tx1111',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+
+        classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
 
@@ -43,11 +43,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should enforce password minimum length', async () => {
-        const req = {
-            email: 'valid@email.com',
-            password: '$xab1Tx',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+        req.password = '$xab1Tx',
+            classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'password');
@@ -56,11 +53,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should enforce password maximum length', async () => {
-        const req = {
-            email: 'valid@email.com',
-            password: '!$1b11111111111111111',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+        req.password = '!$1b11111111111111111';
+        classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'password');
@@ -69,10 +63,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should enforce email requirement', async () => {
-        const req = {
-            password: '!$1b1111111111111111',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+        delete req.email;
+        classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'email');
@@ -81,11 +73,8 @@ describe('CreateUserDto', () => {
     });
 
     it('should enforce email validity', async () => {
-        const req = {
-            email: 'invalid@emailcom',
-            password: '!$1b1111111111111111',
-        };
-        classUnderTest = plainToClass(CreateUserDto, req);
+        req.email = 'invalid@emailcom';
+        classUnderTest = plainToClass(CreateUserDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'email');
