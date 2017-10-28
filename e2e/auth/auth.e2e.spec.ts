@@ -36,4 +36,10 @@ describe('Auth', () => {
             .expect(201)
             .expect(loginResult);
     });
+
+    it(`/Get auth`, () => {
+        return request(server)
+            .get('/auth')
+            .expect(401);
+    });
 });

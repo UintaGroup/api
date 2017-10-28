@@ -22,8 +22,7 @@ export class ExpenseReportService {
 
     async findOne(user: IUser, id: string): Promise<IExpenseReport> {
         try {
-            return await this.expenseReportModel.findOne({user, _id: id})
-                .exec();
+            return await this.expenseReportModel.findOne({user, _id: id}).exec();
         } catch (err) {
             throw new MongoException(err);
         }
