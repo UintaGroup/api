@@ -9,6 +9,7 @@
     "start:prod": "node dist/server.js",
     "build": "tsc && npm run docs",
     "test": "jest --config ./jest.config.json",
+    "test:watch": "jest --config ./jest.config.json --watch",
     "docs": "./node_modules/.bin/apidoc -i ./src/app -o bin/docs",
     "e2e": "jest --config ./jest.e2e.config.js --forceExit",
     "ci": "npm run test && npm run e2e",
