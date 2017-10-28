@@ -9,7 +9,3 @@ node_js:
 - stable
 matrix:
   fast_finish: true
-install:
-- npm install
-script:
-- npm run test
