@@ -16,3 +16,26 @@
  *   "message": "Unauthorized"
  * }
  */
+/**
+ * @apiDefine Invalid
+ * @apiError BadRequest Resource Validation Failed.
+ * @apiErrorExample {json} Example Response:
+ * HTTP/1.1 400 Bad Request
+ * {
+ *   "statusCode": "400",
+ *   "message": "Validation Failed",
+ *   "errors": [
+ *     "city should not be empty"
+ *   ]
+ * }
+ */
+/**
+ * @apiDefine Conflict
+ * @apiError Conflict 409 Record Already Exists.
+ * @apiErrorExample {json} Example Response:
+ * HTTP/1.1 409 Conflict
+ * {
+ *   "statusCode": "409",
+ *   "message": "Conflict"
+ * }
+ */

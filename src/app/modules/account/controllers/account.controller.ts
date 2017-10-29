@@ -85,15 +85,8 @@ export class AccountController {
      *      ]
      *    }
      *  }
-     *
-     * @apiError Validation Failed.
-     * @apiError Conflict 409 User's Email or Company name already exist.
-     * @apiErrorExample {json} Error-Response:
-     * HTTP/1.1 409 Conflict
-     * {
-     *   "statusCode": "409",
-     *   "message": "Conflict"
-     * }
+     * @apiUse Invalid
+     * @apiUse Conflict
      */
     @Post()
     async create(@Body() createAccountDto: CreateAccountDto): Promise<IAccount> {

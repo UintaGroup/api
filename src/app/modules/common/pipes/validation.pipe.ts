@@ -1,4 +1,4 @@
-import { HttpException } from '@nestjs/core';
+import { HttpValidationException } from '../exceptions/http-validation.exception';
 import { Pipe, HttpStatus } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
@@ -14,7 +14,7 @@ export class ValidationPipe implements PipeTransform<any> {
         const object = plainToClass(metatype, value);
         const errors = await validate(object);
         if (errors.length > 0) {
-            throw new HttpException('Validation failed', HttpStatus.BAD_REQUEST);
+            throw new HttpValidationException('Validation failed', HttpStatus.BAD_REQUEST, errors);
         }
         return value;
     }

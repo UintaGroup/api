@@ -67,7 +67,7 @@ export class UserController {
      * @apiUse AuthHeader
      *
      * @apiParam {String} email User's email address.
-     * @apiParam {String} password User's desired Password.
+     * @apiParam {String{8-20}} password User's desired Password.
      * @apiParamExample {json} Request-Example:
      * {
      *  "email": "flurrytime@gmail.com",

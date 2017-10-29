@@ -51,7 +51,7 @@ export class AuthController {
      *
      * @apiError Unauthorized Invalid email or password.
      *
-     * @apiErrorExample Failed-Response
+     * @apiErrorExample {json} Failed-Response
      * HTTP/1.1 401
      * {
      *   "statusCode": 401,
