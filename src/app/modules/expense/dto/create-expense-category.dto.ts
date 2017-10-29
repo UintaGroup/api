@@ -6,6 +6,6 @@ export class CreateExpenseCategoryDto {
     name: string;
     @IsOptional()
     description: string;
-    @IsNotEmpty()
+    @IsOptional()
     sourceSystemId: string;
 }
