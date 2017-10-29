@@ -5,7 +5,7 @@
 ```
 $ npm install -g commitizen
 $ npm install -g cz-conventional-changelog
-$ npm install
+$ yarn install
 ```
 
 ### Start
