@@ -1,10 +1,10 @@
 import { Validator } from 'class-validator';
-import { CreateExpenseReportDto } from './create-expense-report.dto';
+import { UpdateExpenseReportDto } from './update-expense-report.dto';
 import { plainToClass } from 'class-transformer';
 
-describe('CreateExpenseReportDto', () => {
+describe('UpdateExpenseReportDto', () => {
     let _validator: any;
-    let classUnderTest: CreateExpenseReportDto;
+    let classUnderTest: UpdateExpenseReportDto;
     let req: any;
 
     beforeEach(() => {
@@ -35,53 +35,43 @@ describe('CreateExpenseReportDto', () => {
 
     it('should validate', async () => {
 
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
 
         expect(result.length).toEqual(0);
     });
 
-    it('should initialize in invalid state', async () => {
-        classUnderTest = plainToClass(CreateExpenseReportDto, {});
-
-        const result = await _validator.validate(classUnderTest);
-
-        expect(result.length).toBeGreaterThan(0);
-    });
-
-    it('should enforce name requirement', async () => {
+    it('should not enforce name requirement', async () => {
         delete req.name ;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
-        const validationError: any = result.find(validErr => validErr.property === 'name');
 
-        expect(validationError.constraints.isNotEmpty).toBeDefined();
+        expect(result.length).toEqual(0);
     });
 
     it('should not enforce description requirement', async () => {
         delete req.description;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
 
         expect(result.length).toEqual(0);
     });
 
-    it('should enforce startDate requirement', async () => {
+    it('should not enforce startDate requirement', async () => {
         delete req.startDate;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
-        const validationError: any = result.find(validErr => validErr.property === 'startDate');
 
-        expect(validationError.constraints.isDateString).toBeDefined();
+        expect(result.length).toEqual(0);
     });
 
     it('should enforce startDate type', async () => {
         req.startDate = 'INVALIDDATE';
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'startDate');
@@ -89,32 +79,22 @@ describe('CreateExpenseReportDto', () => {
         expect(validationError.constraints.isDateString).toBeDefined();
     });
 
-    it('should enforce endDate requirement', async () => {
+    it('should not enforce endDate requirement', async () => {
         delete req.endDate;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
-        const validationError: any = result.find(validErr => validErr.property === 'endDate');
 
-        expect(validationError.constraints.isDateString).toBeDefined();
+        expect(result.length).toEqual(0);
     });
 
     it('should enforce endDate type', async () => {
         req.endDate = 123;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
         const validationError: any = result.find(validErr => validErr.property === 'endDate');
 
         expect(validationError.constraints.isDateString).toBeDefined();
-    });
-
-    it('should validate expense lines', async () => {
-        delete req.expenses[0].amount;
-        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
-
-        const result = await _validator.validate(classUnderTest);
-
-        expect(result.length).toEqual(1);
     });
 });
