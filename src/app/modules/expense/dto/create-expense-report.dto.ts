@@ -1,5 +1,7 @@
+import 'reflect-metadata';
 import { IsDateString, IsNotEmpty, IsOptional, ValidateNested } from 'class-validator';
 import { CreateExpenseDto } from './create-expense.dto';
+import { Type } from 'class-transformer';
 
 export class CreateExpenseReportDto {
 
@@ -17,5 +19,6 @@ export class CreateExpenseReportDto {
 
     @IsOptional()
     @ValidateNested()
+    @Type(() => CreateExpenseDto)
     expenses: CreateExpenseDto[];
 }
