@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Component, Inject, UsePipes } from '@nestjs/common';
+import { Component, Inject } from '@nestjs/common';
 import { Cat } from './interfaces/cat.interface';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -30,8 +30,6 @@ export class CatsService {
 
     async update(updateCatDto: UpdateCatDto): Promise<void> {
         try {
-            // TODO prevent fields not on updateCatDTO?
-            delete updateCatDto['name'];
             await this.catModel.findByIdAndUpdate(updateCatDto.id, updateCatDto);
         } catch (err) {
             throw new MongoException(err);

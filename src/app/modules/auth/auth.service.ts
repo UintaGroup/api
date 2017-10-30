@@ -23,7 +23,9 @@ export class AuthService {
     async resetPassword(email: string): Promise<any> {
         // TODO - Send email to user account with token
         const resetToken: IAuthToken = new AuthToken('secret', { email }, 86400);
+        /* tslint:disable */
         console.log('PASSWORD RESET', resetToken.token);
+        /* tslint:enable */
         await this.userService.findOne({email: email.toLowerCase()})
             .then(user => {
                 this.validateUser(user);

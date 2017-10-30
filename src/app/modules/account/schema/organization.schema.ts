@@ -1,11 +1,8 @@
 import * as bcrypt from 'bcrypt-nodejs';
 import * as mongoose from 'mongoose';
-import { UserSchema } from './user.schema';
 
 const _toJSON = {
     transform: (doc, ret) => {
-        ret['id'] = ret._id;
-        delete ret._id;
         delete ret.__v;
     },
 };
@@ -29,7 +26,7 @@ export const OrganizationSchema = new mongoose.Schema({
     toJSON: _toJSON,
 });
 
-OrganizationSchema.pre('save', function (next) {
+OrganizationSchema.pre('save', function(next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -37,8 +34,8 @@ OrganizationSchema.pre('save', function (next) {
         if (err) {
             return next(err);
         }
-        bcrypt.hash(this.name, salt, undefined, (err: mongoose.Error, hash) => {
-            if (err) {
+        bcrypt.hash(this.name, salt, undefined, (er: mongoose.Error, hash) => {
+            if (er) {
                 return next(err);
             }
             this.publicKey = hash;

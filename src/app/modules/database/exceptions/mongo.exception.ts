@@ -1,7 +1,7 @@
 import { HttpException } from '@nestjs/core';
 import { HttpStatus } from '@nestjs/common';
 
-//TODO - I dislike this
+// TODO - I dislike this
 export class MongoException extends HttpException {
     constructor(private _rawMongoException: any) {
         super(MongoException.parseType(_rawMongoException), MongoException.parseStatus(_rawMongoException));

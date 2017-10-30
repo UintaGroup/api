@@ -11,7 +11,7 @@ export class JwtStrategy extends Strategy {
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
                 secretOrKey: 'secret',
             },
-            async (payload, next) => await this.verify(payload, next)
+            async (payload, next) => await this.verify(payload, next),
         );
 
         passport.use(this);

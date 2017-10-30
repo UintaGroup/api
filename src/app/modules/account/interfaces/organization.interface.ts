@@ -14,5 +14,5 @@ export interface IOrganization extends Document {
     publicKey: string;
     active: boolean;
     companySite: string;
-    users: IUser[]
+    users: IUser[];
 }

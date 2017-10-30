@@ -39,8 +39,8 @@ UserSchema.pre('save', function(next) {
         if (err) {
             return next(err);
         }
-        bcrypt.hash(this.password, salt, undefined, (err: mongoose.Error, hash) => {
-            if (err) {
+        bcrypt.hash(this.password, salt, undefined, (er: mongoose.Error, hash) => {
+            if (er) {
                 return next(err);
             }
             this.password = hash;
