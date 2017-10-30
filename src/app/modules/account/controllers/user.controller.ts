@@ -66,10 +66,16 @@ export class UserController {
      *
      * @apiUse AuthHeader
      *
+     * @apiParam {String} firstName User's first name.
+     * @apiParam {String} lastName User's last name.
+     * @apiParam {String} [externalId] External systemId.
      * @apiParam {String} email User's email address.
      * @apiParam {String{8-20}} password User's desired Password.
      * @apiParamExample {json} Request-Example:
      * {
+     *  "firstName": "Stone",
+     *  "lastName": "Lasley",
+     *  "externalId": "12345",
      *  "email": "flurrytime@gmail.com",
      *  "password": "Passw0rd1"
      * }
@@ -91,9 +97,12 @@ export class UserController {
      *    "active": true,
      *    "id": "59eacd0a4d03ee001282a73f"
      *  },
-     *  "email": "flurrytime@gmail.com",
-     *  "active": true,
-     *  "roles": []
+     *    "firstName": "Stone",
+     *    "lastName": "Lasley",
+     *    "externalId": "12345",
+     *    "email": "flurrytime@gmail.com",
+     *    "active": true,
+     *    "roles": []
      * }
      *
      * @apiUse Unauthorized
@@ -152,8 +161,12 @@ export class UserController {
      * @apiSuccessExample Success-Response:
      *  HTTP/1.1 200 OK
      *   {
-     *     "id": "59e81ca929c5e733dfebf78f",
-     *     "email": "sclarklasley@gmail.com",
+     *    "firstName": "Stone",
+     *    "lastName": "Lasley",
+     *    "externalId": "12345",
+     *    "email": "flurrytime@gmail.com",
+     *    "active": true,
+     *    "roles": []
      *     "active": true,
      *     "roles": [
      *         "admin"
@@ -175,9 +188,15 @@ export class UserController {
      *
      * @apiUse AuthHeader
      *
-     * @apiParam {String} password User's desired Password.
+     * @apiParam {String} [firstName[ User's first name.
+     * @apiParam {String} [lastName] User's last name.
+     * @apiParam {String} [externalId] External systemId.
+     * @apiParam {String} [password] User's desired Password.
      * @apiParamExample {json} Request-Example:
      * {
+     *  "firstName": "Stone",
+     *  "lastName": "Lasley",
+     *  "externalId": "12345",
      *  "password": "Passw0rd1"
      * }
      *
@@ -198,9 +217,13 @@ export class UserController {
      *    "active": true,
      *    "id": "59eacd0a4d03ee001282a73f"
      *  },
-     *  "email": "flurrytime@gmail.com",
-     *  "active": true,
-     *  "roles": []
+     *  {
+     *    "firstName": "Stone",
+     *    "lastName": "Lasley",
+     *    "externalId": "12345",
+     *    "email": "flurrytime@gmail.com",
+     *    "active": true,
+     *    "roles": []
      * }
      *
      * @apiUse Unauthorized

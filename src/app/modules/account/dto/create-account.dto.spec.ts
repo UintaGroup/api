@@ -12,6 +12,8 @@ describe('CreateAccountDto', () => {
 
         req = {
             user: {
+                firstName: 'Stone',
+                lastName: 'Lasley',
                 email: 'valid@email.com',
                 password: '$xab1Tx1111',
             },

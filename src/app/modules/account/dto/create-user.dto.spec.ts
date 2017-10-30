@@ -10,6 +10,8 @@ describe('CreateUserDto', () => {
     beforeEach(() => {
         _validator = new Validator();
         req = {
+            firstName: 'Stone',
+            lastName: 'Lasley',
             email: 'valid@email.com',
             password: '$xab1Tx1111',
         } as object;
@@ -82,4 +84,23 @@ describe('CreateUserDto', () => {
         expect(validationError.constraints.isEmail).toBeDefined();
     });
 
+    it('should enforce firstName requirement', async () => {
+        delete req.firstName;
+        classUnderTest = plainToClass(CreateUserDto, req as object);
+
+        const result = await _validator.validate(classUnderTest);
+        const validationError: any = result.find(validErr => validErr.property === 'firstName');
+
+        expect(validationError.constraints.isNotEmpty).toBeDefined();
+    });
+
+    it('should enforce lastName requirement', async () => {
+        delete req.lastName;
+        classUnderTest = plainToClass(CreateUserDto, req as object);
+
+        const result = await _validator.validate(classUnderTest);
+        const validationError: any = result.find(validErr => validErr.property === 'lastName');
+
+        expect(validationError.constraints.isNotEmpty).toBeDefined();
+    });
 });
