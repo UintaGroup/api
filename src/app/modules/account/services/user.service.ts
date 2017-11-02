@@ -3,15 +3,18 @@ import { Component, Inject } from '@nestjs/common';
 import { MongoException } from '../../database/exceptions';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { IOrganization, IUser } from '../interfaces';
+import { QueryBuilderService } from '../../common/services/query-builder.service';
 
 @Component()
 export class UserService {
-    constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>) {
+    constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>, private readonly queryBuilder: QueryBuilderService) {
     }
 
-    async findAll(orgId: string): Promise<IUser[]> {
+    async findAll(orgId: string, queryParams?: object): Promise<IUser[]> {
         try {
-            return await this.userModel.find({organization: orgId }).exec();
+            const query = this.userModel.find({organization: orgId });
+            this.queryBuilder.prepare(query, queryParams);
+            return await query.exec();
         } catch (err) {
             throw new MongoException(err);
         }
@@ -81,5 +84,4 @@ export class UserService {
             throw new MongoException(err);
         }
     }
-
 }

@@ -1,12 +1,6 @@
 import * as bcrypt from 'bcrypt-nodejs';
 import * as mongoose from 'mongoose';
 
-const _toJSON = {
-    transform: (doc, ret) => {
-        delete ret.__v;
-    },
-};
-
 export const OrganizationSchema = new mongoose.Schema({
     name: {type: String, unique: true, trim: true, required: true},
     address: {type: String, required: true},
@@ -23,7 +17,13 @@ export const OrganizationSchema = new mongoose.Schema({
     users: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 }, {
     timestamps: true,
-    toJSON: _toJSON,
+    toJSON: {
+        transform: (doc, ret) => {
+            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
+            delete ret._id;
+            delete ret.__v;
+        },
+    },
 });
 
 OrganizationSchema.pre('save', function(next) {

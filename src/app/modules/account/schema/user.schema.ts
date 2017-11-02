@@ -2,15 +2,6 @@ import * as bcrypt from 'bcrypt-nodejs';
 import * as crypto from 'crypto';
 import * as mongoose from 'mongoose';
 
-const _toJSON = {
-    transform: (doc, ret) => {
-        delete ret._id;
-        delete ret.__v;
-        delete ret.password;
-        delete ret.tokens;
-    },
-};
-
 export const UserSchema = new mongoose.Schema({
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
@@ -28,7 +19,15 @@ export const UserSchema = new mongoose.Schema({
     tokens: Array,
 }, {
     timestamps: true,
-    toJSON: _toJSON,
+    toJSON: {
+        transform: (doc, ret) => {
+            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
+            delete ret._id;
+            delete ret.__v;
+            delete ret.password;
+            delete ret.tokens;
+        },
+    },
 });
 
 UserSchema.pre('save', function(next) {
@@ -41,7 +40,7 @@ UserSchema.pre('save', function(next) {
         }
         bcrypt.hash(this.password, salt, undefined, (er: mongoose.Error, hash) => {
             if (er) {
-                return next(err);
+                return next(er);
             }
             this.password = hash;
             next();

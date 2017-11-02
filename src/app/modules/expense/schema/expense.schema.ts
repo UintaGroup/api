@@ -10,6 +10,7 @@ export const ExpenseSchema = new mongoose.Schema({
     timestamps: true,
     toJSON: {
         transform: (doc, ret) => {
+            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
             delete ret._id;
             delete ret.__v;
         },

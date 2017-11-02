@@ -2,13 +2,6 @@ import * as mongoose from 'mongoose';
 import { ReportStatus } from '../enum/status.enum';
 import { ExpenseSchema } from './expense.schema';
 
-const _toJSON = {
-    transform: (doc, ret) => {
-        delete ret._id;
-        delete ret.__v;
-    },
-};
-
 export const ExpenseReportSchema = new mongoose.Schema({
     name: {type: String, trim: true, required: true},
     description: {type: String, required: false},
@@ -20,7 +13,13 @@ export const ExpenseReportSchema = new mongoose.Schema({
     expenses: [ExpenseSchema],
 }, {
     timestamps: true,
-    toJSON: _toJSON,
+    toJSON: {
+        transform: (doc, ret) => {
+            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
+            delete ret._id;
+            delete ret.__v;
+        },
+    },
 });
 // Getter
 // ExpenseSchema.path('price').get(num =>  (num / 100).toFixed(2));

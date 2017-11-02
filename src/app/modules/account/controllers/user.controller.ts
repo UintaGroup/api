@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Put, Req, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Put, Req, Param, Query } from '@nestjs/common';
 import { UserService } from '../services';
 import { IUser } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';
@@ -54,8 +54,8 @@ export class UserController {
      */
     @Get()
     @Roles('admin')
-    async findAll(@Req() req): Promise<IUser[]> {
-        return this.userService.findAll(req.user.orgId);
+    async findAll(@Req() req, @Query() query): Promise<IUser[]> {
+        return this.userService.findAll(req.user.orgId, query);
     }
 
     /**
