@@ -2,6 +2,8 @@ import { Document } from 'mongoose';
 import { IOrganization } from './organization.interface';
 
 export interface IUser extends Document {
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     passwordResetToken: string;

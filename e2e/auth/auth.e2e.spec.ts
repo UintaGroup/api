@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { AuthModule } from '../../src/app/modules/auth/auth.module';
-import { AuthService } from '../../src/app/modules/auth/auth.service';
+import { AuthService, JwtService } from '../../src/app/modules/auth/services';
 
 describe('Auth', () => {
     const server = express();
@@ -14,11 +14,20 @@ describe('Auth', () => {
         expiration: 3600,
     };
     const authService = {authenticate: () => loginResult};
+    const jwtService = {
+        fromAuthHeaderAsBearerToken() {
+            return;
+        },
+        verify() {
+            return;
+       },
+    };
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
             modules: [AuthModule],
         })
+            .overrideComponent(JwtService).useValue(jwtService)
             .overrideComponent(AuthService).useValue(authService)
             .compile();
 

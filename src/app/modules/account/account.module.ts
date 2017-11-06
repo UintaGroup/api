@@ -1,9 +1,5 @@
 import * as passport from 'passport';
-import {
-    Module,
-    NestModule,
-    RequestMethod,
-} from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { MiddlewaresConsumer } from '@nestjs/common/interfaces/middlewares';
 import { CommonModule } from '../common';
 import { DatabaseModule } from '../database';
