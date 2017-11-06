@@ -6,8 +6,8 @@ export class AuthToken implements IAuthToken {
 
     public token: string;
 
-    constructor(secret: string, user: object, public expiresIn: number) {
-        this.token = jwt.sign(user, secret, {expiresIn});
+    constructor(user: object, public expiresIn: number) {
+        this.token = jwt.sign(user, process.env.UINTA_SECRET, {expiresIn});
     }
 
     public static verify(token: string): Promise<IJwt> {

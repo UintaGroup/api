@@ -1,10 +1,10 @@
 import * as bcrypt from 'bcrypt-nodejs';
 import { Component } from '@nestjs/common';
-import { UnauthorizedException, InvalidArgumentException } from '../common/exceptions';
-import { UserService } from '../account';
-import { AuthToken } from './models';
-import { IAuthToken } from './interfaces';
-import { SetPasswordDto } from './dto';
+import { UnauthorizedException, InvalidArgumentException } from '../../common/exceptions';
+import { UserService } from '../../account';
+import { AuthToken } from '../models';
+import { IAuthToken } from '../interfaces';
+import { SetPasswordDto } from '../dto';
 
 @Component()
 export class AuthService {
@@ -16,17 +16,17 @@ export class AuthService {
             .then(user => {
                 this.validateUser(user);
                 this.validatePassword(password, user.password);
-                return new AuthToken(process.env.UINTA_SECRET, {email: user.email}, 3600);
+                return new AuthToken({email}, 3600);
             });
     }
 
     async resetPassword(email: string): Promise<any> {
         // TODO - Send email to user account with token
-        const resetToken: IAuthToken = new AuthToken('secret', { email }, 86400);
+        const resetToken: IAuthToken = new AuthToken({email}, 86400);
         /* tslint:disable */
         console.log('PASSWORD RESET', resetToken.token);
         /* tslint:enable */
-        await this.userService.findOne({email: email.toLowerCase()})
+        await this.userService.findByEmail(email)
             .then(user => {
                 this.validateUser(user);
                 user.passwordResetToken = resetToken.token;
@@ -36,20 +36,18 @@ export class AuthService {
 
     async setPassword(setPasswordDto: SetPasswordDto): Promise<void> {
         try {
-            await AuthToken.verify(setPasswordDto.token)
-                .then(token => this.userService.findOne({
-                    email: token.email,
-                    passwordResetToken: setPasswordDto.token,
-                }))
-                .then(user => {
-                    this.validateUser(user);
-                    user.passwordResetToken = '';
-                    user.password = setPasswordDto.password;
-                    return user.save();
-                });
+            const token = await AuthToken.verify(setPasswordDto.token);
+            const user = await this.userService.findOne({
+                email: token.email,
+                passwordResetToken: setPasswordDto.token,
+            });
+            this.validateUser(user);
+            user.passwordResetToken = '';
+            user.password = setPasswordDto.password;
+            await user.save();
         }
         catch (err) {
-            if (err.name === 'TokenExpiredError') {
+            if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
                 throw new InvalidArgumentException();
             }
             else {

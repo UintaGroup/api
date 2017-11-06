@@ -1,27 +1,18 @@
 import * as passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Component } from '@nestjs/common';
-import { UserService } from '../../account/services/user.service';
+import { JwtService } from '../services';
 
 @Component()
 export class JwtStrategy extends Strategy {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly jwtService: JwtService) {
         super(
             {
                 jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-                secretOrKey: 'secret',
+                secretOrKey: process.env.UINTA_SECRET,
             },
-            async (payload, next) => await this.verify(payload, next),
+            async (payload, next) => await this.jwtService.verify(payload, next),
         );
-
         passport.use(this);
-    }
-
-    public async verify(payload, done) {
-        const user = await this.userService.findByEmail(payload.email);
-        if (!user) {
-            return done('Unauthorized', false);
-        }
-        done(null, user);
     }
 }
