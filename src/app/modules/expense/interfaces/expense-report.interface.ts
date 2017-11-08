@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 import { IExpense } from './expense.interface';
 import { IUser } from '../../account/interfaces';
+import { ReportStatus } from '../enum/status.enum';
 
 export interface IExpenseReport extends Document{
     name: string;
@@ -8,6 +9,6 @@ export interface IExpenseReport extends Document{
     startDate: string;
     endDate: string;
     user: IUser;
-    status: number;
+    status: ReportStatus;
     expenses: IExpense[];
 }

@@ -1,19 +1,19 @@
 import { Model } from 'mongoose';
 import { Component, Inject } from '@nestjs/common';
 import { MongoException } from '../../database/exceptions';
+import { QueryBuilderService } from '../../common/services';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { IOrganization, IUser } from '../interfaces';
-import { QueryBuilderService } from '../../common/services/query-builder.service';
 
 @Component()
 export class UserService {
-    constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>, private readonly queryBuilder: QueryBuilderService) {
+    constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>, private readonly queryService: QueryBuilderService) {
     }
 
     async findAll(orgId: string, queryParams?: object): Promise<IUser[]> {
         try {
             const query = this.userModel.find({organization: orgId });
-            this.queryBuilder.prepare(query, queryParams);
+            this.queryService.prepare(query, queryParams);
             return await query.exec();
         } catch (err) {
             throw new MongoException(err);

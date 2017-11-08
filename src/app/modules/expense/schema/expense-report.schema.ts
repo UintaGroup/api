@@ -5,9 +5,9 @@ import { ExpenseSchema } from './expense.schema';
 export const ExpenseReportSchema = new mongoose.Schema({
     name: {type: String, trim: true, required: true},
     description: {type: String, required: false},
-    startDate: {type: Boolean, default: true},
-    endDate: {type: Boolean, default: true},
-    status: {type: Number, default: ReportStatus.Submitted},
+    startDate: {type: Date, default: Date.now},
+    endDate: {type: Date, default: Date.now},
+    status: {type: String, default: ReportStatus.Submitted},
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     expenses: [ExpenseSchema],
