@@ -1,4 +1,4 @@
-import { AuthToken } from '../../../src/app/modules/auth/models/auth-token.model';
+import { AuthToken } from '../models/auth-token.model';
 
 export class JwtServiceMock {
     constructor(private _authToken: AuthToken){}

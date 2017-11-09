@@ -11,7 +11,7 @@ export class AuthService {
     constructor(private readonly userService: UserService) {
     }
 
-    async authenticate(email, password): Promise<any> {
+    async authenticate(email, password): Promise<IAuthToken> {
         return await this.userService.findByEmail(email)
             .then(user => {
                 this.validateUser(user);
@@ -20,7 +20,7 @@ export class AuthService {
             });
     }
 
-    async resetPassword(email: string): Promise<any> {
+    async resetPassword(email: string): Promise<void> {
         // TODO - Send email to user account with token
         const resetToken: IAuthToken = new AuthToken({email}, 86400);
         /* tslint:disable */

@@ -1,1 +1,1 @@
-export * from './mocks/jwt.service.mock';
+export * from '../../src/app/modules/auth/services/jwt.service.mock';
