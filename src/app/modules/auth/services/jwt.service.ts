@@ -4,7 +4,8 @@ import { ExtractJwt } from 'passport-jwt';
 
 @Component()
 export class JwtService {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService) {
+    }
 
     public fromAuthHeaderAsBearerToken(): any {
         return ExtractJwt.fromAuthHeaderAsBearerToken();

@@ -8,6 +8,7 @@ import { IExpenseCategory } from '../interfaces';
 export class ExpenseCategoryController {
     constructor(private readonly expenseCategoryService: ExpenseCategoryService) {
     }
+
     /**
      * @api {get} /expenses/categories Get All
      * @apiName All

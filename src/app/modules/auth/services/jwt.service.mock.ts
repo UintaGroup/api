@@ -4,7 +4,9 @@ export class JwtServiceMock {
     constructor(private _authToken: AuthToken){}
 
     fromAuthHeaderAsBearerToken() {
-        return () => this._authToken.token;
+        return () => {
+            return this._authToken.token;
+        };
     }
 
     verify(payload, next): void {
