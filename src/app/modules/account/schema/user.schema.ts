@@ -2,6 +2,14 @@ import * as bcrypt from 'bcrypt-nodejs';
 import * as crypto from 'crypto';
 import * as mongoose from 'mongoose';
 
+const _toJSON = {
+    transform: (doc, ret) => {
+        delete ret._id;
+        delete ret.__v;
+        delete ret.password;
+        delete ret.tokens;
+    },
+};
 export const UserSchema = new mongoose.Schema({
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
@@ -19,18 +27,10 @@ export const UserSchema = new mongoose.Schema({
     tokens: Array,
 }, {
     timestamps: true,
-    toJSON: {
-        transform: (doc, ret) => {
-            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
-            delete ret._id;
-            delete ret.__v;
-            delete ret.password;
-            delete ret.tokens;
-        },
-    },
+    toJSON: _toJSON,
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -48,7 +48,7 @@ UserSchema.pre('save', function(next) {
     });
 });
 
-UserSchema.methods.gravatar = function(size: number) {
+UserSchema.methods.gravatar = function (size: number) {
     if (!size) {
         size = 200;
     }
@@ -58,9 +58,9 @@ UserSchema.methods.gravatar = function(size: number) {
     const md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
-UserSchema.virtual(('orgId')).get(function() {
+UserSchema.virtual(('orgId')).get(function () {
     return this.organization._id;
 });
-UserSchema.virtual(('isStaff')).get(function() {
+UserSchema.virtual(('isStaff')).get(function () {
     return this.roles.indexOf('staff') > -1;
 });

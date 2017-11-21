@@ -15,12 +15,6 @@ export const ExpenseCategorySchema = new mongoose.Schema({
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
 }, {
     timestamps: true,
-    toJSON: {
-        transform: (doc, ret) => {
-            Object.defineProperty(ret, 'id', Object.getOwnPropertyDescriptor(ret, '_id'));
-            delete ret._id;
-            delete ret.__v;
-        },
-    },
+    toJSON: _toJSON,
 });
 ExpenseCategorySchema.index({sourceSystemId: 1, organization: 1 }, { unique: true});
