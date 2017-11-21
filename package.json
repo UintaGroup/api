@@ -1,11 +1,8 @@
 {
   "name": "uinta-api",
   "version": "2.0.0",
-  "engines": {
-    "node": "6.10.0"
-  },
   "description": "Base API for Uinta Applications",
-  "license": "MIT",
+  "t stlicense": "MIT",
   "scripts": {
     "start": "node index.js",
     "prestart:prod": "tsc",
