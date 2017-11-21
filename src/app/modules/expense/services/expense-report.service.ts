@@ -1,7 +1,6 @@
 import { Model } from 'mongoose';
 import { Component, Inject } from '@nestjs/common';
 import { IUser } from '../../account/interfaces';
-import { QueryBuilderService } from '../../common/services';
 import { IExpenseReport, IExpense } from '../interfaces';
 import { MongoException } from '../../database/exceptions';
 import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
@@ -10,15 +9,12 @@ import { ReportStatus } from '../enum';
 @Component()
 export class ExpenseReportService {
     constructor(@Inject('ExpenseReportModelToken') private readonly expenseReportModel: Model<IExpenseReport>,
-                @Inject('ExpenseModelToken') private readonly expenseModel: Model<IExpense>,
-                private readonly queryService: QueryBuilderService) {
+                @Inject('ExpenseModelToken') private readonly expenseModel: Model<IExpense>) {
     }
 
-    async findAll(user: IUser, queryParams?: object): Promise<IExpenseReport[]> {
+    async findAll(user: IUser): Promise<IExpenseReport[]> {
         try {
-            const query = this.expenseReportModel.find({user});
-            this.queryService.prepare(query, queryParams);
-            return await query.exec();
+            return this.expenseReportModel.find({user}).exec();
         } catch (err) {
             throw new MongoException(err);
         }

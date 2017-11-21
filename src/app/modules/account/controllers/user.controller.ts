@@ -54,8 +54,8 @@ export class UserController {
      */
     @Get()
     @Roles('admin')
-    async findAll(@Req() req, @Query() query): Promise<IUser[]> {
-        return this.userService.findAll(req.user.orgId, query);
+    async findAll(@Req() req): Promise<IUser[]> {
+        return this.userService.findAll(req.user.orgId);
     }
 
     /**

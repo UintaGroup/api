@@ -86,8 +86,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Get()
-    public async findAll(@Req() req, @Query() query) {
-        return await this.expenseReportService.findAll(req.user, query);
+    public async findAll(@Req() req) {
+        return await this.expenseReportService.findAll(req.user);
     }
 
     /**
