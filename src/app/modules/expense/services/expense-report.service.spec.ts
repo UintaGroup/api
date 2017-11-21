@@ -1,12 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { TestingModule } from '@nestjs/testing/testing-module';
 import { ExpenseReportService } from './expense-report.service';
-import { QueryBuilderService } from '../../common/services/query-builder.service';
 
 describe('ExpenseReportService', () => {
     let module: TestingModule;
     let service: ExpenseReportService;
-    let queryService: QueryBuilderService;
     let reportModel: any;
 
     beforeEach(async () => {
@@ -16,15 +14,11 @@ describe('ExpenseReportService', () => {
             exec: jest.fn(),
             save: jest.fn(),
         };
-        queryService = {
-            prepare: jest.fn()
-        };
         module = await Test.createTestingModule({
             components: [
                 ExpenseReportService,
                 {provide: 'ExpenseReportModelToken', useValue: reportModel},
                 {provide: 'ExpenseModelToken', useValue: {}},
-                {provide: QueryBuilderService, useValue: queryService},
             ],
         }).compile();
 

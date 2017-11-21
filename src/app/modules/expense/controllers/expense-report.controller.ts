@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req, Param, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Param, Put } from '@nestjs/common';
 import { ObjectIdPipe } from '../../common/pipes';
 import { ExpenseReportService } from '../services';
 import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
@@ -119,7 +119,7 @@ export class ExpenseReportController {
      *       "merchant": "NewEgg"
      *     }
      *   ],
-     *   "status": "submitted",
+     *   "status": 1,
      *   "endDate": "2017-01-06T00:00:00.000Z",
      *   "startDate": "2017-01-06T00:00:00.000Z",
      *   "id": "59e81ca929c5e733dfebf78f"
@@ -185,7 +185,7 @@ export class ExpenseReportController {
      * @apiSuccess {String} report.user Id of Report Creator.
      * @apiSuccess {String} report.name Report Name.
      * @apiSuccess {String} report.description Report Description.
-     * @apiSuccess {String} report.status Report Status.
+     * @apiSuccess {Number} report.status Report Status.
      * @apiSuccess {Date} report.startDate Report Starting Date.
      * @apiSuccess {Date} report.endDate Report Ending Date.
      * @apiSuccess {Object[]} [report.expenses] Expenses
@@ -206,7 +206,7 @@ export class ExpenseReportController {
      *   "description": "My Description",
      *   "endDate": "2017-01-06T00:00:00.000Z",
      *   "startDate": "2017-01-06T00:00:00.000Z",
-     *   "status": "submitted",
+     *   "status": 1,
      *   "expenses": [
      *     {
      *       "amount": 1,

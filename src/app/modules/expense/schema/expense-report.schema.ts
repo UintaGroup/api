@@ -8,12 +8,13 @@ const _toJSON = {
         delete ret.__v;
     },
 };
+
 export const ExpenseReportSchema = new mongoose.Schema({
     name: {type: String, trim: true, required: true},
     description: {type: String, required: false},
-    startDate: {type: Boolean, default: Date.now},
-    endDate: {type: Boolean, default: Date.now},
-    status: {type: Number, default: 0},
+    startDate: {type: Boolean, default: true},
+    endDate: {type: Boolean, default: true},
+    status: {type: Number, default: ReportStatus.Submitted},
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     expenses: [ExpenseSchema],

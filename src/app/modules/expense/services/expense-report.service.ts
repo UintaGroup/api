@@ -14,7 +14,7 @@ export class ExpenseReportService {
 
     async findAll(user: IUser): Promise<IExpenseReport[]> {
         try {
-            return this.expenseReportModel.find({user}).exec();
+            return await this.expenseReportModel.find({user}).exec();
         } catch (err) {
             throw new MongoException(err);
         }

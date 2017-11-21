@@ -10,6 +10,7 @@ const _toJSON = {
         delete ret.tokens;
     },
 };
+
 export const UserSchema = new mongoose.Schema({
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
@@ -30,7 +31,7 @@ export const UserSchema = new mongoose.Schema({
     toJSON: _toJSON,
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
     if (!this.isModified('password')) {
         return next();
     }
@@ -40,7 +41,7 @@ UserSchema.pre('save', function (next) {
         }
         bcrypt.hash(this.password, salt, undefined, (er: mongoose.Error, hash) => {
             if (er) {
-                return next(er);
+                return next(err);
             }
             this.password = hash;
             next();
@@ -48,7 +49,7 @@ UserSchema.pre('save', function (next) {
     });
 });
 
-UserSchema.methods.gravatar = function (size: number) {
+UserSchema.methods.gravatar = function(size: number) {
     if (!size) {
         size = 200;
     }
@@ -58,9 +59,9 @@ UserSchema.methods.gravatar = function (size: number) {
     const md5 = crypto.createHash('md5').update(this.email).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
-UserSchema.virtual(('orgId')).get(function () {
+UserSchema.virtual(('orgId')).get(function() {
     return this.organization._id;
 });
-UserSchema.virtual(('isStaff')).get(function () {
+UserSchema.virtual(('isStaff')).get(function() {
     return this.roles.indexOf('staff') > -1;
 });

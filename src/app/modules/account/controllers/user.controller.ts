@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Put, Req, Param, Query } from '@nestjs/common';
+import { Controller, Post, Get, Body, Put, Req, Param } from '@nestjs/common';
 import { UserService } from '../services';
 import { IUser } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';

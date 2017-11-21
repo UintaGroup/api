@@ -6,6 +6,7 @@ const _toJSON = {
         delete ret.__v;
     },
 };
+
 export const OrganizationSchema = new mongoose.Schema({
     name: {type: String, unique: true, trim: true, required: true},
     address: {type: String, required: true},
@@ -25,7 +26,7 @@ export const OrganizationSchema = new mongoose.Schema({
     toJSON: _toJSON,
 });
 
-OrganizationSchema.pre('save', function (next) {
+OrganizationSchema.pre('save', function(next) {
     if (!this.isModified('password')) {
         return next();
     }

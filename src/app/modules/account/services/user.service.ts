@@ -11,7 +11,7 @@ export class UserService {
 
     async findAll(orgId: string): Promise<IUser[]> {
         try {
-            return this.userModel.find({organization: orgId }).exec();
+            return await this.userModel.find({organization: orgId }).exec();
         } catch (err) {
             throw new MongoException(err);
         }
@@ -81,4 +81,5 @@ export class UserService {
             throw new MongoException(err);
         }
     }
+
 }
