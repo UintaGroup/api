@@ -1,0 +1,12 @@
+# top-most EditorConfig file
+root = true
+
+# 4 space indentation
+[*.ts]
+indent_style = space
+indent_size = 4
+
+# Matches the exact files either package.json or .travis.yml
+[{*.json, *.yml}]
+indent_style = space
+indent_size = 2

@@ -1,7 +1,7 @@
 import { Component } from '@nestjs/common';
 import { CreateAccountDto } from '../dto';
 import { UserService } from './user.service';
-import { IAccount } from '../interfaces';
+import { Account } from '../interfaces';
 import { OrganizationService } from './organization.service';
 import { AccountDto } from '../dto';
 
@@ -10,8 +10,8 @@ export class AccountService {
     constructor(private readonly userService: UserService, private readonly organizationService: OrganizationService) {
     }
 
-    async create(createAccountDto: CreateAccountDto): Promise<IAccount> {
-        const result: IAccount = new AccountDto();
+    async create(createAccountDto: CreateAccountDto): Promise<Account> {
+        const result: Account = new AccountDto();
         await this.organizationService.create(createAccountDto.organization)
             .then(org => {
                 result.organization = org;

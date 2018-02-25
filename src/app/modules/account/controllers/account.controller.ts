@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AccountService } from '../services/account.service';
 import { CreateAccountDto } from '../dto';
-import { IAccount } from '../interfaces';
+import { Account } from '../interfaces';
 
 @Controller('accounts')
 export class AccountController {
@@ -89,7 +89,7 @@ export class AccountController {
      * @apiUse Conflict
      */
     @Post()
-    async create(@Body() createAccountDto: CreateAccountDto): Promise<IAccount> {
+    async create(@Body() createAccountDto: CreateAccountDto): Promise<Account> {
         return await this.accountService.create(createAccountDto);
     }
 }

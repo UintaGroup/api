@@ -1,15 +1,18 @@
 import { Model } from 'mongoose';
-import { Component, Inject } from '@nestjs/common';
-import { MongoException } from '../../database/exceptions';
+import { Component } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto, UpdateUserDto } from '../dto';
-import { IOrganization, IUser } from '../interfaces';
+import { Organization, User } from '../interfaces';
+import { UserSchema } from '../schema/user.schema';
+import { MongoException } from '../../common/exceptions';
 
 @Component()
 export class UserService {
-    constructor(@Inject('UserModelToken') private readonly userModel: Model<IUser>) {
+
+    constructor(@InjectModel(UserSchema) private readonly userModel: Model<User>) {
     }
 
-    async findAll(orgId: string): Promise<IUser[]> {
+    async findAll(orgId: string): Promise<User[]> {
         try {
             return await this.userModel.find({organization: orgId }).exec();
         } catch (err) {
@@ -17,7 +20,7 @@ export class UserService {
         }
     }
 
-    async findOne(params: object): Promise<IUser> {
+    async findOne(params: object): Promise<User> {
         try {
             return await this.userModel.findOne(params)
                 .populate('organization')
@@ -27,15 +30,15 @@ export class UserService {
         }
     }
 
-    async findByEmail(email: string): Promise<IUser> {
+    async findByEmail(email: string): Promise<User> {
         return await this.findOne({email: email.toLowerCase()});
     }
 
-    async find(orgId: string, userId: string): Promise<IUser> {
+    async find(orgId: string, userId: string): Promise<User> {
         return await this.findOne({organization: orgId, id: userId});
     }
 
-    async create(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
+    async create(organization: Organization, createUserDto: CreateUserDto): Promise<User> {
         try {
             const user = new this.userModel(createUserDto);
             user.organization = organization;
@@ -45,7 +48,7 @@ export class UserService {
         }
     }
 
-    async createAdmin(organization: IOrganization, createUserDto: CreateUserDto): Promise<IUser> {
+    async createAdmin(organization: Organization, createUserDto: CreateUserDto): Promise<User> {
         try {
             const user = new this.userModel(createUserDto);
             user.roles = ['admin'];

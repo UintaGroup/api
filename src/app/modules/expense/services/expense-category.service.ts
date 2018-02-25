@@ -1,14 +1,16 @@
 import { Model } from 'mongoose';
-import { Component, Inject } from '@nestjs/common';
+import { Component } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { IExpenseCategory } from '../interfaces';
-import { MongoException } from '../../database/exceptions';
 import { CreateExpenseCategoryDto } from '../dto';
+import { MongoException } from '../../common/exceptions';
 import { Roles } from '../../auth/decorators';
-import { IOrganization } from '../../account/interfaces/';
+import { Organization } from '../../account/interfaces/';
+import { ExpenseReportSchema } from '../schema';
 
 @Component()
 export class ExpenseCategoryService {
-    constructor(@Inject('ExpenseCategoryModelToken') private readonly expenseCategoryModel: Model<IExpenseCategory>) {
+    constructor(@InjectModel(ExpenseReportSchema) private readonly expenseCategoryModel: Model<IExpenseCategory>) {
     }
 
     async findOne(orgId: string, id: string): Promise<IExpenseCategory> {
@@ -21,7 +23,7 @@ export class ExpenseCategoryService {
     }
 
     @Roles('admin')
-    async create(org: IOrganization, createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<IExpenseCategory> {
+    async create(org: Organization, createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<IExpenseCategory> {
         try {
             const expenseCategory = new this.expenseCategoryModel(createExpenseCategoryDto);
             expenseCategory.organization = org;

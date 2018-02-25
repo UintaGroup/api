@@ -2,12 +2,20 @@ import { Module, NestModule } from '@nestjs/common';
 import { MiddlewaresConsumer } from '@nestjs/common/interfaces/middlewares';
 import * as passport from 'passport';
 import { CommonModule } from '../common';
-import { DatabaseModule } from '../database';
 import { expenseProviders } from './expense.providers';
 import { ExpenseReportController, ExpenseCategoryController } from './controllers';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ExpenseCategorySchema, ExpenseReportSchema, ExpenseSchema } from './schema';
 
 @Module({
-    modules: [CommonModule, DatabaseModule],
+    imports: [
+        CommonModule,
+        MongooseModule.forFeature([
+            {name: 'Expense', schema: ExpenseSchema},
+            {name: 'ExpenseCategory', schema: ExpenseCategorySchema},
+            {name: 'ExpenseReport', schema: ExpenseReportSchema},
+        ]),
+    ],
     components: [...expenseProviders],
     controllers: [ExpenseReportController, ExpenseCategoryController],
 })

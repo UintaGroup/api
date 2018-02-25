@@ -1,6 +1,6 @@
-import { IOrganization, IUser } from '../interfaces';
+import { Organization, User } from '../interfaces';
 
 export class AccountDto {
-    user: IUser;
-    organization: IOrganization;
+    user: User;
+    organization: Organization;
 }

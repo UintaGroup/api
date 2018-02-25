@@ -5,19 +5,19 @@ import { ExpenseCategorySchema, ExpenseReportSchema, ExpenseSchema } from './sch
 export const expenseProviders = [
     ExpenseReportService,
     ExpenseCategoryService,
-    {
-        provide: 'ExpenseCategoryModelToken',
-        useFactory: (connection: Connection) => connection.model('ExpenseCategory', ExpenseCategorySchema),
-        inject: ['DbConnectionToken'],
-    },
-    {
-        provide: 'ExpenseReportModelToken',
-        useFactory: (connection: Connection) => connection.model('ExpenseReport', ExpenseReportSchema),
-        inject: ['DbConnectionToken'],
-    },
-    {
-        provide: 'ExpenseModelToken',
-        useFactory: (connection: Connection) => connection.model('Expense', ExpenseSchema),
-        inject: ['DbConnectionToken'],
-    },
+    // {
+    //     provide: 'ExpenseCategoryModelToken',
+    //     useFactory: (connection: Connection) => connection.model('ExpenseCategory', ExpenseCategorySchema),
+    //     inject: ['DbConnectionToken'],
+    // },
+    // {
+    //     provide: 'ExpenseReportModelToken',
+    //     useFactory: (connection: Connection) => connection.model('ExpenseReport', ExpenseReportSchema),
+    //     inject: ['DbConnectionToken'],
+    // },
+    // {
+    //     provide: 'ExpenseModelToken',
+    //     useFactory: (connection: Connection) => connection.model('Expense', ExpenseSchema),
+    //     inject: ['DbConnectionToken'],
+    // },
 ];

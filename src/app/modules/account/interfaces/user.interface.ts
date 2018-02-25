@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
-import { IOrganization } from './organization.interface';
+import { Organization } from './organization.interface';
 
-export interface IUser extends Document {
+export interface User extends Document {
     firstName: string;
     lastName: string;
     email: string;
@@ -20,5 +20,5 @@ export interface IUser extends Document {
     comparePassword: (candidatePassword: string, cb: (err: any, isMatch: any) => {}) => void;
     gravatar: (size: number) => string;
 
-    organization: IOrganization;
+    organization: Organization;
 }

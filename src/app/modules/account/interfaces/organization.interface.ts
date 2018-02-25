@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
-import { IUser } from './user.interface';
+import { User } from './user.interface';
 
-export interface IOrganization extends Document {
+export interface Organization extends Document {
     name: string;
     address: string;
     addressTwo: string;
@@ -14,5 +14,5 @@ export interface IOrganization extends Document {
     publicKey: string;
     active: boolean;
     companySite: string;
-    users: IUser[];
+    users: User[];
 }

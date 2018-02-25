@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Body, Put, Req, Param } from '@nestjs/common';
 import { UserService } from '../services';
-import { IUser } from '../interfaces';
+import { User } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { Roles } from '../../auth/decorators';
 
@@ -54,7 +54,7 @@ export class UserController {
      */
     @Get()
     @Roles('admin')
-    async findAll(@Req() req): Promise<IUser[]> {
+    async findAll(@Req() req): Promise<User[]> {
         return this.userService.findAll(req.user.orgId);
     }
 
@@ -109,7 +109,7 @@ export class UserController {
      */
     @Post()
     @Roles('admin')
-    async create(@Req() req, @Body() createUserDto: CreateUserDto): Promise<IUser> {
+    async create(@Req() req, @Body() createUserDto: CreateUserDto): Promise<User> {
         return await this.userService.create(req.user.organization, createUserDto);
     }
 
@@ -139,7 +139,7 @@ export class UserController {
      * @apiUse Unauthorized
      */
     @Get('me')
-    async me(@Req() req): Promise<IUser> {
+    async me(@Req() req): Promise<User> {
         return this.userService.find(req.user.orgId, req.user.id);
     }
 
@@ -177,7 +177,7 @@ export class UserController {
      */
     @Get(':id')
     @Roles('admin')
-    async find(@Req() req, @Param('id') id): Promise<IUser> {
+    async find(@Req() req, @Param('id') id): Promise<User> {
         return this.userService.find(req.user.orgId, id);
     }
 

@@ -1,10 +1,8 @@
-import { Connection } from 'mongoose';
-import { UserSchema } from '../account/schema/user.schema';
+import { AuthService, JwtService } from './services';
+import { JwtStrategy } from './strategies';
 
 export const authProviders = [
-    {
-        provide: 'UserModelToken',
-        useFactory: (connection: Connection) => connection.model('User', UserSchema),
-        inject: ['DbConnectionToken'],
-    },
+    AuthService,
+    JwtService,
+    JwtStrategy,
 ];

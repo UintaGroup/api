@@ -1,10 +1,10 @@
 import { Document } from 'mongoose';
-import { IOrganization } from '../../account/interfaces';
+import { Organization } from '../../account/interfaces';
 
 export interface IExpenseCategory extends Document {
    name: string;
    description: string;
-   organization: IOrganization;
+   organization: Organization;
    active: boolean;
    sourceSystemId: string;
 }

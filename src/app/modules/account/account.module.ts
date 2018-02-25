@@ -2,14 +2,22 @@ import * as passport from 'passport';
 import { Module, NestModule } from '@nestjs/common';
 import { MiddlewaresConsumer } from '@nestjs/common/interfaces/middlewares';
 import { CommonModule } from '../common';
-import { DatabaseModule } from '../database';
-import { AccountService, OrganizationService, UserService } from './services';
+import { UserService } from './services';
 import { AccountController, OrganizationController, UserController } from './controllers';
 import { accountProviders } from './account.providers';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UserSchema } from './schema/user.schema';
+import { OrganizationSchema } from './schema/organization.schema';
 
 @Module({
-    modules: [DatabaseModule, CommonModule],
-    components: [UserService, AccountService, OrganizationService, ...accountProviders],
+    imports: [
+        CommonModule,
+        MongooseModule.forFeature([
+            {name: 'User', schema: UserSchema },
+            {name: 'Organization', schema: OrganizationSchema },
+        ]),
+    ],
+    components: [...accountProviders],
     controllers: [AccountController, UserController, OrganizationController],
     exports: [UserService],
 })

@@ -10,9 +10,8 @@ async function bootstrap() {
 
     const instance = express();
     instance.use('/docs', express.static(__dirname + '/docs'));
-    const app: any = await NestFactory.create(ApplicationModule, instance);
+    const app: any = await NestFactory.create(ApplicationModule, instance, null);
 
-    // app.use(express.static(__dirname + '/public'));
     app.use(bodyParser.json());
     app.useGlobalFilters(new HttpExceptionFilter(), new HttpValidationExceptionFilter());
     app.useGlobalPipes(new ValidationPipe());

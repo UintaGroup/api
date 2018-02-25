@@ -12,8 +12,8 @@ const _toJSON = {
 export const ExpenseReportSchema = new mongoose.Schema({
     name: {type: String, trim: true, required: true},
     description: {type: String, required: false},
-    startDate: {type: Boolean, default: true},
-    endDate: {type: Boolean, default: true},
+    startDate: {type: Date},
+    endDate: {type: Date},
     status: {type: Number, default: ReportStatus.Submitted},
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},

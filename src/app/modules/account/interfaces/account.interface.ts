@@ -1,7 +1,7 @@
-import { IUser } from './user.interface';
-import { IOrganization } from './organization.interface';
+import { User } from './user.interface';
+import { Organization } from './organization.interface';
 
-export interface IAccount {
-    user: IUser;
-    organization: IOrganization;
+export interface Account {
+    user: User;
+    organization: Organization;
 }

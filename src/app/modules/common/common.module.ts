@@ -3,7 +3,6 @@ import { commonProviders } from './common.providers';
 
 @Module({
     components: [...commonProviders],
-    exports: [
-        ...commonProviders],
+    exports: [...commonProviders],
 })
 export class CommonModule {}

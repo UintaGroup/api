@@ -1,18 +1,20 @@
 import { Model } from 'mongoose';
-import { Component, Inject } from '@nestjs/common';
-import { IUser } from '../../account/interfaces';
+import { Component } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from '../../account/interfaces';
 import { IExpenseReport, IExpense } from '../interfaces';
-import { MongoException } from '../../database/exceptions';
 import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
 import { ReportStatus } from '../enum';
+import { ExpenseReportSchema, ExpenseSchema } from '../schema';
+import { MongoException } from '../../common/exceptions';
 
 @Component()
 export class ExpenseReportService {
-    constructor(@Inject('ExpenseReportModelToken') private readonly expenseReportModel: Model<IExpenseReport>,
-                @Inject('ExpenseModelToken') private readonly expenseModel: Model<IExpense>) {
+    constructor(@InjectModel(ExpenseReportSchema) private readonly expenseReportModel: Model<IExpenseReport>,
+                @InjectModel(ExpenseSchema) private readonly expenseModel: Model<IExpense>) {
     }
 
-    async findAll(user: IUser): Promise<IExpenseReport[]> {
+    async findAll(user: User): Promise<IExpenseReport[]> {
         try {
             return await this.expenseReportModel.find({user}).exec();
         } catch (err) {
@@ -20,7 +22,7 @@ export class ExpenseReportService {
         }
     }
 
-    async findOne(user: IUser, id: string): Promise<IExpenseReport> {
+    async findOne(user: User, id: string): Promise<IExpenseReport> {
         try {
             return await this.expenseReportModel.findOne({user, _id: id}).exec();
         } catch (err) {
@@ -28,17 +30,18 @@ export class ExpenseReportService {
         }
     }
 
-    async create(user: IUser, createExpenseReportDto: CreateExpenseReportDto): Promise<IExpenseReport> {
+    async create(user: User, createExpenseReportDto: CreateExpenseReportDto): Promise<IExpenseReport> {
         try {
             const expenseReport = new this.expenseReportModel(createExpenseReportDto);
             expenseReport.user = user;
             return await expenseReport.save();
         } catch (err) {
+            console.log('MONGO EXCEPTION', err);
             throw new MongoException(err);
         }
     }
 
-    async addExpense(user: IUser, id: string, createExpenseDto: CreateExpenseDto): Promise<void> {
+    async addExpense(user: User, id: string, createExpenseDto: CreateExpenseDto): Promise<void> {
         try {
             const report = await this.findOne(user, id);
             const expense = new this.expenseModel(createExpenseDto);
@@ -49,7 +52,7 @@ export class ExpenseReportService {
         }
     }
 
-    async update(user: IUser, id: string, updateExpenseReportDto: UpdateExpenseReportDto): Promise<void> {
+    async update(user: User, id: string, updateExpenseReportDto: UpdateExpenseReportDto): Promise<void> {
         try {
             const report = await this.findOne(user, id);
             report.name = updateExpenseReportDto.name;
@@ -62,7 +65,7 @@ export class ExpenseReportService {
         }
     }
 
-    async transition(user: IUser, id: string, status: ReportStatus): Promise<void> {
+    async transition(user: User, id: string, status: ReportStatus): Promise<void> {
         try {
             const report = await this.findOne(user, id);
             report.status = status;

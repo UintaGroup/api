@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt-nodejs';
-import { Component } from '@nestjs/common';
-import { UnauthorizedException, InvalidArgumentException } from '../../common/exceptions';
+import { Component, UnauthorizedException } from '@nestjs/common';
+import { InvalidArgumentException } from '../../common/exceptions';
 import { UserService } from '../../account';
 import { AuthToken } from '../models';
 import { IAuthToken } from '../interfaces';
