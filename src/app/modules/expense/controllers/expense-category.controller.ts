@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Req, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ObjectIdPipe } from '../../common/pipes';
+import { ReqContext } from '../../account/decorators';
 import { ExpenseCategoryService } from '../services';
 import { CreateExpenseCategoryDto } from '../dto';
 import { IExpenseCategory } from '../interfaces';
@@ -8,6 +9,7 @@ import { IExpenseCategory } from '../interfaces';
 export class ExpenseCategoryController {
     constructor(private readonly expenseCategoryService: ExpenseCategoryService) {
     }
+
     /**
      * @api {get} /expenses/categories Get All
      * @apiName All
@@ -48,8 +50,8 @@ export class ExpenseCategoryController {
      *
      */
     @Get()
-    public async findAll(@Req() req) {
-        return await this.expenseCategoryService.findAll(req.user.organization);
+    public async findAll(@ReqContext() ctx) {
+        return await this.expenseCategoryService.findAll(ctx.organization);
     }
 
     /**
@@ -81,8 +83,8 @@ export class ExpenseCategoryController {
      * @apiUse Unauthorized
      */
     @Get(':id')
-    public async findOne(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<IExpenseCategory> {
-        return await this.expenseCategoryService.findOne(req.user.organization, id);
+    public async findOne(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<IExpenseCategory> {
+        return await this.expenseCategoryService.findOne(ctx.rganization, id);
     }
 
     /**
@@ -119,7 +121,7 @@ export class ExpenseCategoryController {
      * @apiUse Unauthorized
      */
     @Post()
-    public async create(@Req() req, @Body() createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<any> {
-        return await this.expenseCategoryService.create(req.user.organization, createExpenseCategoryDto);
+    public async create(@ReqContext() ctx, @Body() createExpenseCategoryDto: CreateExpenseCategoryDto): Promise<any> {
+        return await this.expenseCategoryService.create(ctx.organization, createExpenseCategoryDto);
     }
 }

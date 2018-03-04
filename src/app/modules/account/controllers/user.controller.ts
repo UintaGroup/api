@@ -1,8 +1,9 @@
-import { Controller, Post, Get, Body, Put, Req, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Put, Param } from '@nestjs/common';
 import { UserService } from '../services';
 import { User } from '../interfaces';
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { Roles } from '../../auth/decorators';
+import { ReqContext } from '../decorators';
 
 @Controller('users')
 export class UserController {
@@ -54,8 +55,8 @@ export class UserController {
      */
     @Get()
     @Roles('admin')
-    async findAll(@Req() req): Promise<User[]> {
-        return this.userService.findAll(req.user.orgId);
+    async findAll(@ReqContext() ctx): Promise<User[]> {
+        return this.userService.findAll(ctx.orgId);
     }
 
     /**
@@ -109,8 +110,8 @@ export class UserController {
      */
     @Post()
     @Roles('admin')
-    async create(@Req() req, @Body() createUserDto: CreateUserDto): Promise<User> {
-        return await this.userService.create(req.user.organization, createUserDto);
+    async create(@ReqContext() ctx, @Body() createUserDto: CreateUserDto): Promise<User> {
+        return await this.userService.create(ctx.organization, createUserDto);
     }
 
     /**
@@ -139,8 +140,8 @@ export class UserController {
      * @apiUse Unauthorized
      */
     @Get('me')
-    async me(@Req() req): Promise<User> {
-        return this.userService.find(req.user.orgId, req.user.id);
+    async me(@ReqContext() ctx): Promise<User> {
+        return this.userService.find(ctx.orgId, ctx.userId);
     }
 
     /**
@@ -177,8 +178,8 @@ export class UserController {
      */
     @Get(':id')
     @Roles('admin')
-    async find(@Req() req, @Param('id') id): Promise<User> {
-        return this.userService.find(req.user.orgId, id);
+    async find(@ReqContext() ctx, @Param('id') id): Promise<User> {
+        return this.userService.find(ctx.orgId, id);
     }
 
     /**
@@ -229,8 +230,8 @@ export class UserController {
      * @apiUse Unauthorized
      */
     @Put()
-    async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
-        this.userService.update(req.user.orgId, req.user.id, updateUserDto);
+    async updateMe(@ReqContext() ctx, @Body() updateUserDto: UpdateUserDto) {
+        return this.userService.update(ctx.user.orgId, ctx.user.id, updateUserDto);
     }
 
     /**
@@ -273,7 +274,7 @@ export class UserController {
      */
     @Put(':id')
     @Roles('admin')
-    async update(@Req() req, @Param('id') id, @Body() updateUserDto: UpdateUserDto) {
-        this.userService.update(req.user.orgId, id, updateUserDto);
+    async update(@ReqContext() ctx, @Param('id') id, @Body() updateUserDto: UpdateUserDto) {
+        return this.userService.update(ctx.orgId, id, updateUserDto);
     }
 }

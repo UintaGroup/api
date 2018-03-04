@@ -1,6 +1,7 @@
-import { Controller, Get, Req } from '@nestjs/common';
-import { OrganizationService } from '../services/organization.service';
-import { Organization } from '../interfaces/organization.interface';
+import { Controller, Get } from '@nestjs/common';
+import { OrganizationService } from '../services';
+import { Organization } from '../interfaces';
+import { ReqContext } from '../decorators';
 
 @Controller('organizations')
 export class OrganizationController {
@@ -48,8 +49,7 @@ export class OrganizationController {
      * @apiUse Unauthorized
      */
     @Get()
-    async find(@Req() req): Promise<Organization> {
-
-        return this.organizationService.find(req.user.organization);
+    async find(@ReqContext() ctx): Promise<Organization> {
+        return this.organizationService.find(ctx.organization);
     }
 }

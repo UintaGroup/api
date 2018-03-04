@@ -4,6 +4,7 @@ import { ExpenseReportService } from '../services';
 import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
 import { IExpenseReport } from '../interfaces';
 import { ReportStatus } from '../enum';
+import { ReqContext } from '../../account/decorators';
 
 @Controller('expenses/reports')
 export class ExpenseReportController {
@@ -86,8 +87,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Get()
-    public async findAll(@Req() req) {
-        return await this.expenseReportService.findAll(req.user);
+    public async findAll(@ReqContext() ctx) {
+        return await this.expenseReportService.findAll(ctx.user);
     }
 
     /**
@@ -136,8 +137,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Get(':id')
-    public async findOne(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<IExpenseReport> {
-        return await this.expenseReportService.findOne(req.user, id);
+    public async findOne(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<IExpenseReport> {
+        return await this.expenseReportService.findOne(ctx.user, id);
     }
 
     /**
@@ -226,8 +227,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Post()
-    public async create(@Req() req, @Body() createExpenseReportDto: CreateExpenseReportDto): Promise<any> {
-        return await this.expenseReportService.create(req.user, createExpenseReportDto);
+    public async create(@ReqContext() ctx, @Body() createExpenseReportDto: CreateExpenseReportDto): Promise<any> {
+        return await this.expenseReportService.create(ctx.user, createExpenseReportDto);
     }
 
     /**
@@ -255,8 +256,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id')
-    public async update(@Req() req, @Param('id', new ObjectIdPipe()) id, @Body() updateExpenseReportDto: UpdateExpenseReportDto): Promise<any> {
-        return await this.expenseReportService.update(req.user, id, updateExpenseReportDto);
+    public async update(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id, @Body() updateExpenseReportDto: UpdateExpenseReportDto): Promise<any> {
+        return await this.expenseReportService.update(ctx.user, id, updateExpenseReportDto);
     }
 
     /**
@@ -285,8 +286,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id/expenses')
-    public async addExpense(@Req() req, @Param('id', new ObjectIdPipe()) id, @Body() createExpenseDto: CreateExpenseDto): Promise<void> {
-       return await this.expenseReportService.addExpense(req.user, id, createExpenseDto);
+    public async addExpense(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id, @Body() createExpenseDto: CreateExpenseDto): Promise<void> {
+       return await this.expenseReportService.addExpense(ctx.user, id, createExpenseDto);
     }
 
     /**
@@ -304,8 +305,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id/approve')
-    public async approve(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<any> {
-        return await this.expenseReportService.transition(req.user, id, ReportStatus.Approved);
+    public async approve(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<any> {
+        return await this.expenseReportService.transition(ctx.user, id, ReportStatus.Approved);
     }
 
     /**
@@ -323,8 +324,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id/submit')
-    public async submit(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<any> {
-        return await this.expenseReportService.transition(req.user, id, ReportStatus.Submitted);
+    public async submit(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<any> {
+        return await this.expenseReportService.transition(ctx.user, id, ReportStatus.Submitted);
     }
 
     /**
@@ -342,8 +343,8 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id/decline')
-    public async decline(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<any> {
-        return await this.expenseReportService.transition(req.user, id, ReportStatus.Declined);
+    public async decline(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<any> {
+        return await this.expenseReportService.transition(ctx.user, id, ReportStatus.Declined);
     }
 
     /**
@@ -361,7 +362,7 @@ export class ExpenseReportController {
      * @apiUse Unauthorized
      */
     @Put(':id/paid')
-    public async paid(@Req() req, @Param('id', new ObjectIdPipe()) id): Promise<any> {
-        return await this.expenseReportService.transition(req.user, id, ReportStatus.Paid);
+    public async paid(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id): Promise<any> {
+        return await this.expenseReportService.transition(ctx.user, id, ReportStatus.Paid);
     }
 }
