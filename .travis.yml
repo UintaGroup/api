@@ -27,8 +27,8 @@ deploy:
   env: $STAGE_ENVIRONMENT
   bucket_name: $STAGE_BUCKET
   zip_file: ./dist/$npm_package_name.zip
-on:
-  branch: stage
+  on:
+    branch: stage
 deploy:
   skip_cleanup: true
   provider: elasticbeanstalk
@@ -39,5 +39,5 @@ deploy:
   env: $ENVIRONMENT
   bucket_name: $BUCKET
   zip_file: ./dist/$npm_package_name.zip
-on:
-  branch: master
+  on:
+    branch: master
