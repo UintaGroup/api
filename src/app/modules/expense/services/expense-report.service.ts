@@ -36,7 +36,6 @@ export class ExpenseReportService {
             expenseReport.user = user;
             return await expenseReport.save();
         } catch (err) {
-            console.log('MONGO EXCEPTION', err);
             throw new MongoException(err);
         }
     }

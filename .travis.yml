@@ -12,6 +12,8 @@ cache:
   - node_modules
 env:
   - ELASTIC_BEANSTALK_LABEL=$TRAVIS_BUILD_NUMBER
+before_script:
+  - "npm run lint"
 after_success:
   - "./node_modules/.bin/codecov"
 before_deploy:
