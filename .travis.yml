@@ -18,26 +18,25 @@ before_deploy:
   - npm run prepackage
   - npm run package
 deploy:
-  skip_cleanup: true
-  provider: elasticbeanstalk
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  region: $AWS_REGION
-  app: $APP
-  env: $STAGE_ENVIRONMENT
-  bucket_name: $STAGE_BUCKET
-  zip_file: ./dist/$npm_package_name.zip
-  on:
-    branch: stage
-deploy:
-  skip_cleanup: true
-  provider: elasticbeanstalk
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  region: $AWS_REGION
-  app: $APP
-  env: $ENVIRONMENT
-  bucket_name: $BUCKET
-  zip_file: ./dist/$npm_package_name.zip
-  on:
-    branch: master
+  - provider: elasticbeanstalk
+    skip_cleanup: true
+    access_key_id: $AWS_KEY
+    secret_access_key: $AWS_SECRET
+    region: $AWS_REGION
+    app: $APP
+    env: $STAGE_ENVIRONMENT
+    bucket_name: $STAGE_BUCKET
+    zip_file: ./dist/$npm_package_name.zip
+    on:
+      branch: stage
+  - provider: elasticbeanstalk
+    skip_cleanup: true
+    access_key_id: $AWS_KEY
+    secret_access_key: $AWS_SECRET
+    region: $AWS_REGION
+    app: $APP
+    env: $ENVIRONMENT
+    bucket_name: $BUCKET
+    zip_file: ./dist/$npm_package_name.zip
+    on:
+      branch: master
