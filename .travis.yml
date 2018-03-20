@@ -11,12 +11,12 @@ cache:
   directories:
   - node_modules
 env:
-  - ELASTIC_BEANSTALK_LABEL=$NPM_PACKAGE_VERSION.$TRAVIS_BUILD_NUMBER
+  - ELASTIC_BEANSTALK_LABEL=$TRAVIS_BUILD_NUMBER
 after_success:
   - "./node_modules/.bin/codecov"
 before_deploy:
   - npm run prepackage
-  - npm run package
+  - ./utils/eb-package.sh
 deploy:
   - provider: elasticbeanstalk
     skip_cleanup: true
