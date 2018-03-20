@@ -1,23 +1,21 @@
 {
   "name": "uinta-api",
-  "version": "2.0.0",
+  "version": "0.0.10",
   "description": "Base API for Uinta Applications",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
-    "prestart:prod": "tsc",
-    "start:prod": "node dist/server.js",
-    "build": "tsc && npm run docs",
-    "test": "jest --config ./jest.config.json --coverage",
-    "test:watch": "jest --config ./jest.config.json --watch",
+    "start": "node bin/main.js",
+    "build": "tsc",
+    "prepackage": "tsc && npm run docs",
+    "package": "sh ./utils/eb-package.sh",
     "lint": "tslint -p ./tsconfig.json",
     "posttest": "codecov -f coverage/*.json",
+    "test:watch": "jest --config ./jest.config.json --watch",
     "docs": "./node_modules/.bin/apidoc -i ./src/app -o bin/docs",
+    "test": "jest --config ./jest.config.json --coverage",
     "e2e": "jest --config ./jest.e2e.config.js --forceExit",
     "ci": "npm run test && npm run e2e",
-    "watch": "tsc -w",
-    "serve": "nodemon -e ts --watch src --exec \"npm run build && npm run start\" ",
-    "heroku-postbuild": "npm install --only=dev && npm run build"
+    "serve": "nodemon -e ts --watch src --exec \"npm run build && npm run start\" "
   },
   "dependencies": {
     "@nestjs/common": "^4.1.1",

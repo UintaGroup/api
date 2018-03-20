@@ -5,7 +5,39 @@ git:
 language: node_js
 node_js:
 - '6'
-- '7'
-- stable
 matrix:
   fast_finish: true
+cache:
+  directories:
+  - node_modules
+env:
+  - ELASTIC_BEANSTALK_LABEL=$NPM_PACKAGE_VERSION.$TRAVIS_BUILD_NUMBER
+after_success:
+  - "./node_modules/.bin/codecov"
+before_deploy:
+  - npm run prepackage
+  - npm run package
+deploy:
+  skip_cleanup: true
+  provider: elasticbeanstalk
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
+  region: $AWS_REGION
+  app: $APP
+  env: $STAGE_ENVIRONMENT
+  bucket_name: $STAGE_BUCKET
+  zip_file: ./dist/$npm_package_name.zip
+on:
+  branch: stage
+deploy:
+  skip_cleanup: true
+  provider: elasticbeanstalk
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
+  region: $AWS_REGION
+  app: $APP
+  env: $ENVIRONMENT
+  bucket_name: $BUCKET
+  zip_file: ./dist/$npm_package_name.zip
+on:
+  branch: master
