@@ -2,8 +2,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
-import { AuthModule } from '../../src/app/modules/auth/auth.module';
+import { AuthModule } from '../../src/app/modules/auth';
 import { AuthService, JwtService } from '../../src/app/modules/auth/services';
+import { OrganizationService, UserService } from '../../src/app/modules/account/services';
 
 describe('Auth', () => {
     const server = express();
@@ -16,7 +17,7 @@ describe('Auth', () => {
     const authService = {authenticate: () => loginResult};
     const jwtService = {
         fromAuthHeaderAsBearerToken() {
-            return;
+            return () => {};
         },
         verify() {
             return;
@@ -29,6 +30,8 @@ describe('Auth', () => {
         })
             .overrideComponent(JwtService).useValue(jwtService)
             .overrideComponent(AuthService).useValue(authService)
+            .overrideComponent(UserService).useValue({})
+            .overrideComponent(OrganizationService).useValue({})
             .compile();
 
         const app = module.createNestApplication(server);

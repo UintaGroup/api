@@ -2,8 +2,10 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
-import { AccountModule } from '../../src/app/modules/account/account.module';
-import { AccountService } from '../../src/app/modules/account/services/account.service';
+import { AccountModule } from '../../src/app/modules/account';
+import { AccountService, OrganizationService, UserService } from '../../src/app/modules/account/services';
+import { CommonModule } from '../../src/app/modules/common';
+import { MongooseModule } from '@nestjs/mongoose';
 
 describe('Account', () => {
     const server = express();
@@ -14,12 +16,16 @@ describe('Account', () => {
         organization: {},
     };
     const accountService = {create: () => newAccount};
+    const organizationService = {};
+    const userService = {};
 
     beforeAll(async () => {
         const module = await Test.createTestingModule({
             modules: [AccountModule],
         })
             .overrideComponent(AccountService).useValue(accountService)
+            .overrideComponent(UserService).useValue(userService)
+            .overrideComponent(OrganizationService).useValue(organizationService)
             .compile();
 
         const app = module.createNestApplication(server);
@@ -30,7 +36,10 @@ describe('Account', () => {
         return request(server)
             .post('/accounts')
             .send({
-                user: {email: 'user@user.com', password: 'password'},
+                user: {
+                    email: 'user@user.com',
+                    password: 'password',
+                },
                 organization: {name: 'business'},
             })
             .expect(201)

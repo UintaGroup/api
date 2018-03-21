@@ -11,11 +11,11 @@ import { OrganizationSchema } from './schema/organization.schema';
 
 @Module({
     imports: [
-        CommonModule,
-        MongooseModule.forFeature([
-            {name: 'User', schema: UserSchema },
-            {name: 'Organization', schema: OrganizationSchema },
-        ]),
+        // CommonModule,
+        // MongooseModule.forFeature([
+        //     {name: 'User', schema: UserSchema },
+        //     {name: 'Organization', schema: OrganizationSchema },
+        // ]),
     ],
     components: [...accountProviders],
     controllers: [AccountController, UserController, OrganizationController],
