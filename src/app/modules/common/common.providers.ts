@@ -1,5 +1,1 @@
-// import { DatabaseModule } from '../database';
-
-export const commonProviders = [
-    // DatabaseModule,
-];
+export const commonProviders = [];

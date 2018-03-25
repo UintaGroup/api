@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { TestingModule } from '@nestjs/testing/testing-module';
-import { AccountService } from '../services/account.service';
+import { AccountService } from '../services';
 import { AccountController } from './account.controller';
 
 describe('AccountController', () => {

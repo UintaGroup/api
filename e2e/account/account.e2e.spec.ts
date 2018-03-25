@@ -3,9 +3,8 @@ import * as bodyParser from 'body-parser';
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { AccountModule } from '../../src/app/modules/account';
-import { AccountService, OrganizationService, UserService } from '../../src/app/modules/account/services';
-import { CommonModule } from '../../src/app/modules/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { AccountService, OrganizationService } from '../../src/app/modules/account/services';
+import { UserService } from '../../src/app/modules/user/services';
 
 describe('Account', () => {
     const server = express();

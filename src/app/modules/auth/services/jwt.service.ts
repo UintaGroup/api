@@ -1,10 +1,13 @@
+import * as jwt from 'jsonwebtoken';
 import { Component } from '@nestjs/common';
-import { UserService } from '../../account/services';
 import { ExtractJwt } from 'passport-jwt';
+import { UserService } from '../../user/services';
+import { IJwt } from '../interfaces';
 
 @Component()
 export class JwtService {
-    constructor(private readonly userService: UserService) {}
+    constructor(private readonly userService: UserService) {
+    }
 
     public fromAuthHeaderAsBearerToken(): any {
         return ExtractJwt.fromAuthHeaderAsBearerToken();
@@ -17,4 +20,17 @@ export class JwtService {
         }
         done(null, user);
     }
+
+    public verifyToken(token: string): Promise<IJwt> {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, process.env.UINTA_SECRET, (err, decoded) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(decoded);
+                }
+            });
+        });
+    }
+
 }

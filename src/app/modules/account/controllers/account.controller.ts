@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { AccountService } from '../services/account.service';
+import { AccountService } from '../services';
 import { CreateAccountDto } from '../dto';
 import { Account } from '../interfaces';
 

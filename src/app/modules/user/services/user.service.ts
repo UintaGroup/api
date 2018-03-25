@@ -1,10 +1,11 @@
 import { Model } from 'mongoose';
 import { Component } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateUserDto, UpdateUserDto } from '../dto';
-import { Organization, User } from '../interfaces';
-import { UserSchema } from '../schema/user.schema';
 import { MongoException } from '../../common/exceptions';
+import { UserSchema } from '../schema/user.schema';
+import { Organization } from '../../account/interfaces';
+import { User } from '../interfaces';
+import { CreateUserDto, UpdateUserDto } from '../dto';
 
 @Component()
 export class UserService {
@@ -12,9 +13,9 @@ export class UserService {
     constructor(@InjectModel(UserSchema) private readonly userModel: Model<User>) {
     }
 
-    async findAll(orgId: string): Promise<User[]> {
+    async findAll(organization: string): Promise<User[]> {
         try {
-            return await this.userModel.find({organization: orgId }).exec();
+            return await this.userModel.find({organization}).exec();
         } catch (err) {
             throw new MongoException(err);
         }
@@ -34,8 +35,8 @@ export class UserService {
         return await this.findOne({email: email.toLowerCase()});
     }
 
-    async find(orgId: string, userId: string): Promise<User> {
-        return await this.findOne({organization: orgId, id: userId});
+    async find(organization: string, userId: string): Promise<User> {
+        return await this.findOne({organization, _id: userId});
     }
 
     async create(organization: Organization, createUserDto: CreateUserDto): Promise<User> {

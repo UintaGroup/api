@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 import { IExpense } from './expense.interface';
-import { User } from '../../account/interfaces';
+import { User } from '../../user/interfaces';
 
 export interface IExpenseReport extends Document{
     name: string;

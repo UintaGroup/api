@@ -1,17 +1,19 @@
-import * as bcrypt from 'bcrypt-nodejs';
 import { Component, UnauthorizedException } from '@nestjs/common';
 import { InvalidArgumentException } from '../../common/exceptions';
-import { UserService } from '../../account';
 import { AuthToken } from '../models';
 import { IAuthToken } from '../interfaces';
 import { SetPasswordDto } from '../dto';
+import { User } from '../../user';
+import { BcryptService } from './bcrypt.service';
+import { JwtService } from './jwt.service';
+import { UserService } from '../../user/services';
 
 @Component()
 export class AuthService {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly userService: UserService, private bcryptService: BcryptService, private jwtService: JwtService) {
     }
 
-    async authenticate(email, password): Promise<any> {
+    async authenticate(email, password): Promise<IAuthToken> {
         return await this.userService.findByEmail(email)
             .then(user => {
                 this.validateUser(user);
@@ -36,11 +38,12 @@ export class AuthService {
 
     async setPassword(setPasswordDto: SetPasswordDto): Promise<void> {
         try {
-            const token = await AuthToken.verify(setPasswordDto.token);
+            const token = await this.jwtService.verifyToken(setPasswordDto.token);
             const user = await this.userService.findOne({
                 email: token.email,
                 passwordResetToken: setPasswordDto.token,
             });
+
             this.validateUser(user);
             user.passwordResetToken = '';
             user.password = setPasswordDto.password;
@@ -56,14 +59,14 @@ export class AuthService {
         }
     }
 
-    validateUser(user): void {
+    validateUser(user?: User): void {
         if (!user) {
             throw new UnauthorizedException();
         }
     }
 
     validatePassword(candidatePassword: string, password: string): void {
-        const valid: boolean = bcrypt.compareSync(candidatePassword, password);
+        const valid: boolean = this.bcryptService.compareSync(candidatePassword, password);
         if (!valid) {
             throw new UnauthorizedException();
         }

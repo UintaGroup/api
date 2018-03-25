@@ -1,4 +1,4 @@
-import { User } from './user.interface';
+import { User } from '../../user/interfaces';
 import { Organization } from './organization.interface';
 
 export interface Account {

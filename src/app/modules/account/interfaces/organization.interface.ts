@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { User } from './user.interface';
+import { User } from '../../user';
 
 export interface Organization extends Document {
     name: string;

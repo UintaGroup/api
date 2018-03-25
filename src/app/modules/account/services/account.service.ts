@@ -1,6 +1,6 @@
 import { Component } from '@nestjs/common';
 import { CreateAccountDto } from '../dto';
-import { UserService } from './user.service';
+import { UserService } from '../../user/services/user.service';
 import { Account } from '../interfaces';
 import { OrganizationService } from './organization.service';
 import { AccountDto } from '../dto';

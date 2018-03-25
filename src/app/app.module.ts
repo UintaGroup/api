@@ -4,6 +4,7 @@ import { AuthModule } from './modules/auth';
 import { AccountModule } from './modules/account';
 import { CommonModule } from './modules/common';
 import { ExpenseModule } from './modules/expense';
+import { UserModule } from './modules/user';
 
 const password = encodeURIComponent(process.env.DB_PASSWORD);
 const user = process.env.DB_USER;
@@ -15,6 +16,7 @@ const host = process.env.DB_HOST;
         AuthModule,
         AccountModule,
         CommonModule,
+        UserModule,
         ExpenseModule,
         MongooseModule.forRoot('mongodb://' + user + ':' + password + host + authSrc),
     ],

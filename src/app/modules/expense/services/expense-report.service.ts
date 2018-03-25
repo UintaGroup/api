@@ -1,12 +1,12 @@
 import { Model } from 'mongoose';
 import { Component } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../../account/interfaces';
 import { IExpenseReport, IExpense } from '../interfaces';
 import { CreateExpenseReportDto, UpdateExpenseReportDto, CreateExpenseDto } from '../dto';
 import { ReportStatus } from '../enum';
 import { ExpenseReportSchema, ExpenseSchema } from '../schema';
 import { MongoException } from '../../common/exceptions';
+import { User } from '../../user/interfaces';
 
 @Component()
 export class ExpenseReportService {
@@ -40,25 +40,9 @@ export class ExpenseReportService {
         }
     }
 
-    async addExpense(user: User, id: string, createExpenseDto: CreateExpenseDto): Promise<void> {
-        try {
-            const report = await this.findOne(user, id);
-            const expense = new this.expenseModel(createExpenseDto);
-            report.expenses.push(expense);
-            await report.save();
-        } catch (err) {
-            throw new MongoException(err);
-        }
-    }
-
     async update(user: User, id: string, updateExpenseReportDto: UpdateExpenseReportDto): Promise<void> {
         try {
-            const report = await this.findOne(user, id);
-            report.name = updateExpenseReportDto.name;
-            report.description = updateExpenseReportDto.description;
-            report.startDate = updateExpenseReportDto.startDate;
-            report.endDate = updateExpenseReportDto.endDate;
-            await report.save();
+            await this.expenseReportModel.findOneAndUpdate({user, _id: id}, updateExpenseReportDto);
         } catch (err) {
             throw new MongoException(err);
         }
@@ -66,9 +50,7 @@ export class ExpenseReportService {
 
     async transition(user: User, id: string, status: ReportStatus): Promise<void> {
         try {
-            const report = await this.findOne(user, id);
-            report.status = status;
-            await report.save();
+            await this.expenseReportModel.findOneAndUpdate({user, _id: id}, {status});
         } catch (err) {
             throw new MongoException(err);
         }

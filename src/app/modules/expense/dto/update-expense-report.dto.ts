@@ -6,18 +6,15 @@ import { Type } from 'class-transformer';
 export class UpdateExpenseReportDto {
 
     @IsNotEmpty()
-    @IsOptional()
     name: string;
 
     @IsOptional()
     description: string;
 
     @IsDateString()
-    @IsOptional()
     startDate: string;
 
     @IsDateString()
-    @IsOptional()
     endDate: string;
 
     @IsOptional()

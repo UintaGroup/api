@@ -1,9 +1,11 @@
 import * as mongoose from 'mongoose';
-import { ReportStatus } from '../enum/status.enum';
+import { ReportStatus } from '../enum';
 import { ExpenseSchema } from './expense.schema';
 
 const _toJSON = {
+    virtuals: true,
     transform: (doc, ret) => {
+        ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
     },
@@ -14,7 +16,7 @@ export const ExpenseReportSchema = new mongoose.Schema({
     description: {type: String, required: false},
     startDate: {type: Date},
     endDate: {type: Date},
-    status: {type: Number, default: ReportStatus.Submitted},
+    status: {type: Number, default: ReportStatus.Open},
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organization'},
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     expenses: [ExpenseSchema],
@@ -22,8 +24,8 @@ export const ExpenseReportSchema = new mongoose.Schema({
     timestamps: true,
     toJSON: _toJSON,
 });
-// Getter
-// ExpenseSchema.path('price').get(num =>  (num / 100).toFixed(2));
 
-// Setter
-// ExpenseSchema.path('price').set(num => num * 100);
+ExpenseReportSchema.virtual('total').
+get(function() {
+    return this.expenses.reduce((a, b) => a.amount + b.amount);
+});

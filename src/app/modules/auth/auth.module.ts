@@ -5,9 +5,10 @@ import { MiddlewaresConsumer } from '@nestjs/common/interfaces/middlewares';
 import { CommonModule } from '../common';
 import { AccountModule } from '../account';
 import { authProviders } from './auth.providers';
+import { UserModule } from '../user';
 
 @Module({
-    imports: [CommonModule, AccountModule],
+    imports: [CommonModule, AccountModule, UserModule],
     components: [...authProviders],
     controllers: [AuthController],
 })

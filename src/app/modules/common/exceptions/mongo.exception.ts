@@ -1,5 +1,4 @@
-import { HttpException } from '@nestjs/core';
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, HttpException } from '@nestjs/common';
 
 // TODO - I dislike this
 export class MongoException extends HttpException {

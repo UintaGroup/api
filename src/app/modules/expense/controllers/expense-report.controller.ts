@@ -238,16 +238,36 @@ export class ExpenseReportController {
      *
      * @apiUse AuthHeader
      *
-     * @apiParam {String} name Report name.
-     * @apiParam {String} [description] Report description.
-     * @apiParam {Date} startDate Report period start.
-     * @apiParam {Date} endDate Report period end.
+     * @apiParam {Object} report Expense Report
+     * @apiParam {String} report.name Report name.
+     * @apiParam {Number} [report.description] Report description.
+     * @apiParam {Date} report.startDate Report period start.
+     * @apiParam {Date} report.endDate Report period end.
+     * @apiParam {Object[]} [report.expenses] Expenses
+     * @apiParam {Object} report.expenses.expense Expense item
+     * @apiParam {Number} report.expenses.expense.amount] Expense amount.
+     * @apiParam {String} report.expenses.expense.description] Expense description.
+     * @apiParam {Date} report.expenses.expense.expenseDate] Expense date.
+     * @apiParam {String} report.expenses.expense.merchant] Expense merchant.
      * @apiParamExample {json} Request-Example:
-     * {
      *   "name": "Report one",
-     *   "description": "Conference",
+     *   "description": "My Description",
      *   "endDate": "2017-01-06T00:00:00.000Z",
-     *   "startDate": "2017-01-06T00:00:00.000Z"
+     *   "startDate": "2017-01-06T00:00:00.000Z",
+     *   "expenses": [
+     *       {
+     *           "amount": 10.00,
+     *           "description": "",
+     *           "expenseDate": "2017-01-07T00:00:00.000Z",
+     *           "merchant": "BestBuy"
+     *       },
+     *       {
+     *           "amount": 800.00,
+     *           "description": "",
+     *           "expenseDate": "2017-01-06T00:00:00.000Z",
+     *           "merchant": "NewEgg"
+     *       }
+     *   ]
      * }
      *
      * @apiSuccessExample Success-Response:
@@ -258,36 +278,6 @@ export class ExpenseReportController {
     @Put(':id')
     public async update(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id, @Body() updateExpenseReportDto: UpdateExpenseReportDto): Promise<any> {
         return await this.expenseReportService.update(ctx.user, id, updateExpenseReportDto);
-    }
-
-    /**
-     * @api {put} /expenses/reports Add Expense
-     * @apiName Add Expense
-     * @apiGroup Expense Reports
-     *
-     * @apiUse AuthHeader
-     *
-     * @apiParam {Number} amount Expense amount.
-     * @apiParam {String} description Expense description.
-     * @apiParam {Date} [expenseDate] Expense date.
-     * @apiParam {String} merchant Expense merchant.
-     * @apiParamExample  {json} Request-Example:
-     * {
-     *   "amount": 10.00,
-     *   "description": "",
-     *   "expenseCategoryId": "59e7e2b777e0253e14970032",
-     *   "expenseDate": "2017-01-07T00:00:00.000Z",
-     *   "merchant": "BestBuy"
-     * }
-     *
-     * @apiSuccessExample Success-Response:
-     * HTTP/1.1 200 OK
-     *
-     * @apiUse Unauthorized
-     */
-    @Put(':id/expenses')
-    public async addExpense(@ReqContext() ctx, @Param('id', new ObjectIdPipe()) id, @Body() createExpenseDto: CreateExpenseDto): Promise<void> {
-       return await this.expenseReportService.addExpense(ctx.user, id, createExpenseDto);
     }
 
     /**

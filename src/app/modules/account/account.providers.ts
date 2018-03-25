@@ -1,7 +1,6 @@
-import { AccountService, OrganizationService, UserService } from './services';
+import { AccountService, OrganizationService } from './services';
 
 export const accountProviders = [
-    UserService,
     AccountService,
     OrganizationService,
 ];
