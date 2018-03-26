@@ -1,6 +1,7 @@
 import { Validator } from 'class-validator';
 import { UpdateExpenseReportDto } from './update-expense-report.dto';
 import { plainToClass } from 'class-transformer';
+import { CreateExpenseReportDto } from './create-expense-report.dto';
 
 describe('UpdateExpenseReportDto', () => {
     let _validator: any;
@@ -42,13 +43,14 @@ describe('UpdateExpenseReportDto', () => {
         expect(result.length).toEqual(0);
     });
 
-    it('should not enforce name requirement', async () => {
+    it('should enforce name requirement', async () => {
         delete req.name ;
-        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
+        const validationError: any = result.find(validErr => validErr.property === 'name');
 
-        expect(result.length).toEqual(0);
+        expect(validationError.constraints.isNotEmpty).toBeDefined();
     });
 
     it('should not enforce description requirement', async () => {
@@ -60,13 +62,14 @@ describe('UpdateExpenseReportDto', () => {
         expect(result.length).toEqual(0);
     });
 
-    it('should not enforce startDate requirement', async () => {
+    it('should enforce startDate requirement', async () => {
         delete req.startDate;
-        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
+        const validationError: any = result.find(validErr => validErr.property === 'startDate');
 
-        expect(result.length).toEqual(0);
+        expect(validationError.constraints.isDateString).toBeDefined();
     });
 
     it('should enforce startDate type', async () => {
@@ -79,13 +82,14 @@ describe('UpdateExpenseReportDto', () => {
         expect(validationError.constraints.isDateString).toBeDefined();
     });
 
-    it('should not enforce endDate requirement', async () => {
+    it('should enforce endDate requirement', async () => {
         delete req.endDate;
-        classUnderTest = plainToClass(UpdateExpenseReportDto, req as object);
+        classUnderTest = plainToClass(CreateExpenseReportDto, req as object);
 
         const result = await _validator.validate(classUnderTest);
+        const validationError: any = result.find(validErr => validErr.property === 'endDate');
 
-        expect(result.length).toEqual(0);
+        expect(validationError.constraints.isDateString).toBeDefined();
     });
 
     it('should enforce endDate type', async () => {
